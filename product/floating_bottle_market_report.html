@@ -238,7 +238,7 @@
     }
     table {
       width: 100%;
-      min-width: 760px;
+      min-width: 920px;
       border-collapse: collapse;
       font-size: 13px;
     }
@@ -254,6 +254,20 @@
       font-size: 12px;
     }
     tr:last-child td { border-bottom: 0; }
+    .source-note { margin-top: 10px; color: var(--muted); font-size: 12px; }
+    .text-link {
+      color: var(--green);
+      font-weight: 800;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(21,114,79,.28);
+    }
+    .trend-card { display: grid; gap: 12px; }
+    .trend-meta { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 12px; }
+    .sparkline { width: 100%; height: 142px; background: linear-gradient(180deg, #ffffff, #f5f8f4); border: 1px solid var(--line); }
+    .sparkline polyline { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    .sparkline .area { fill: rgba(21,114,79,.10); stroke: none; }
+    .sparkline .axis { stroke: #dce3dc; stroke-width: 1; }
+    .spark-caption { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
 
     .timeline {
       counter-reset: step;
@@ -309,10 +323,10 @@
       <h1>漂浮水瓶市场调研</h1>
       <p class="dek">搜索结果很多，但真正让水瓶本身竖直漂浮的产品几乎没有。现有唯一竞品评分低、容量虚标、体验缺口明显。</p>
       <div class="hero-grid">
-        <div class="metric"><strong class="green">1</strong><span>竖直漂浮竞品</span><small>Buoya 独家</small></div>
-        <div class="metric"><strong class="coral">3.5★</strong><span>竞品评分</span><small>仅 20 条评论</small></div>
-        <div class="metric"><strong class="amber">$49</strong><span>竞品定价</span><small>价格偏高</small></div>
-        <div class="metric"><strong class="blue">~35</strong><span>漂浮类相关产品</span><small>饮料架为主</small></div>
+        <div class="metric"><strong class="green">286K</strong><span>主需求月搜索量</span><small>pool floats</small></div>
+        <div class="metric"><strong class="coral">3.5★</strong><span>Buoya 体验缺口</span><small>原始样本：20 评论</small></div>
+        <div class="metric"><strong class="amber">5-7月</strong><span>搜索旺季</span><small>关键词趋势一致</small></div>
+        <div class="metric"><strong class="blue">3,764</strong><span>相关竞品月销量上限</span><small>Jasonwell serving bar</small></div>
       </div>
     </div>
   </header>
@@ -323,6 +337,7 @@
       <a href="#competitor">竞品拆解</a>
       <a href="#market">市场格局</a>
       <a href="#data">销量信号</a>
+      <a href="#keywords">关键词趋势</a>
       <a href="#matrix">机会矩阵</a>
       <a href="#action">下一步</a>
     </div>
@@ -433,28 +448,29 @@
 
     <section id="data">
       <div class="wrap">
-        <div class="section-kicker">Demand signals</div>
-        <h2>漂浮配件销量信号：需求真实存在</h2>
+        <div class="section-kicker">Competitor sales</div>
+        <h2>竞品销量与链接：先看相关需求是否真实</h2>
         <div class="grid-2">
           <div class="panel">
-            <h3>高评论产品</h3>
+            <h3>月销量较高的相关竞品</h3>
             <div class="bars">
-              <div class="bar-row"><span>DIVEBLAST</span><div class="track"><div class="bar" style="width:100%"></div></div><b>2,717</b></div>
-              <div class="bar-row"><span>BubbleWally</span><div class="track"><div class="bar" style="width:41%"></div></div><b>1,123</b></div>
-              <div class="bar-row"><span>FEEBRIA</span><div class="track"><div class="bar" style="width:39%"></div></div><b>1,063</b></div>
-              <div class="bar-row"><span>Zcaukya</span><div class="track"><div class="bar" style="width:37%"></div></div><b>999</b></div>
-              <div class="bar-row"><span>Human Bobber</span><div class="track"><div class="bar" style="width:36%"></div></div><b>970</b></div>
+              <div class="bar-row"><span>Jasonwell serving bar</span><div class="track"><div class="bar" style="width:100%"></div></div><b>3,764</b></div>
+              <div class="bar-row"><span>DIVEBLAST holder</span><div class="track"><div class="bar" style="width:36%"></div></div><b>1,338</b></div>
+              <div class="bar-row"><span>GoFloats 3 pack</span><div class="track"><div class="bar" style="width:30%"></div></div><b>1,113</b></div>
+              <div class="bar-row"><span>YGSEPCC 15 pack</span><div class="track"><div class="bar" style="width:21%"></div></div><b>781</b></div>
+              <div class="bar-row"><span>Zcaukya 12 pack</span><div class="track"><div class="bar" style="width:15%"></div></div><b>581</b></div>
             </div>
+            <p class="source-note">口径：Sorftime US 实时产品搜索，按月销量估算。筛选范围为漂浮饮料架、泳池杯架、漂浮酒杯等相邻产品，不等同于“竖直漂浮保温杯”直接竞品。</p>
           </div>
           <div class="panel">
-            <h3>用户痛点转译</h3>
+            <h3>数据结论</h3>
             <ul class="compact-list">
-              <li><span>饮料架要额外携带</span><b class="coral">麻烦</b></li>
-              <li><span>普通水杯落水会沉</span><b class="coral">损失</b></li>
-              <li><span>漂浮酒杯没有保温</span><b class="coral">体验短</b></li>
-              <li><span>Buoya 容量太小</span><b class="coral">不够喝</b></li>
-              <li><span>杯口沾水</span><b class="coral">不卫生</b></li>
-              <li><span>水面找不到杯子</span><b class="coral">低可见</b></li>
+              <li><span>漂浮配件有明确销量</span><b class="green">成立</b></li>
+              <li><span>直接“漂浮水瓶”供给弱</span><b class="green">成立</b></li>
+              <li><span>Buoya 未在 Sorftime 命中</span><b class="amber">需复核</b></li>
+              <li><span>核心旺季</span><b class="green">5-7月</b></li>
+              <li><span>更稳切入词</span><b class="blue">pool floats</b></li>
+              <li><span>更精准成交词</span><b class="blue">inflatable drink holder</b></li>
             </ul>
           </div>
         </div>
@@ -462,18 +478,87 @@
         <div class="table-wrap" style="margin-top:16px;">
           <table>
             <thead>
-              <tr><th>产品名称</th><th>类型</th><th>价格</th><th>评分</th><th>评论数</th><th>BSR/类目</th></tr>
+              <tr><th>产品/链接</th><th>类型</th><th>ASIN</th><th>价格</th><th>月销量</th><th>月销额</th><th>评分/评论</th></tr>
             </thead>
             <tbody>
-              <tr><td>DIVEBLAST 鳄梨饮料架</td><td>充气大型平台</td><td>$29.10</td><td>4.4★</td><td>2,717</td><td>#25 泳池配件</td></tr>
-              <tr><td>Zcaukya 12只装充气杯垫</td><td>充气套装</td><td>$15.19</td><td>4.4★</td><td>999</td><td>套装热销</td></tr>
-              <tr><td>Human Bobber 充气饮料架</td><td>充气手掌造型</td><td>$25.32</td><td>4.4★</td><td>970</td><td>派对场景爆款</td></tr>
-              <tr><td>BubbleWally 漂浮酒杯套装</td><td>Tritan 酒杯</td><td>$25.00</td><td>4.6★</td><td>1,123</td><td>泳池派对</td></tr>
-              <tr><td>充气饮料架 35 个装</td><td>派对套装</td><td>$29.11</td><td>4.6★</td><td>302</td><td>派对/礼品</td></tr>
-              <tr><td>DIVEBLAST 24 罐冷却器</td><td>充气保温冷却器</td><td>$56.97</td><td>4.6★</td><td>74</td><td>高端场景</td></tr>
-              <tr><td>Rtteri 氯丁橡胶 4 件套</td><td>氯丁橡胶杯垫</td><td>$31.66</td><td>4.3★</td><td>55</td><td>中档价位</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B07LGBSJW4" target="_blank" rel="noopener">Jasonwell Inflatable Serving Bar</a></td><td>漂浮饮料/食物托盘</td><td>B07LGBSJW4</td><td>$20.99</td><td>3,764</td><td>$79,006</td><td>4.5★ / 7,974</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B07ZL4JDKQ" target="_blank" rel="noopener">DIVEBLAST Floating Drink Holder</a></td><td>漂浮饮料架</td><td>B07ZL4JDKQ</td><td>$22.97</td><td>1,338</td><td>$29,195</td><td>4.4★ / 2,718</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B01EYYRF64" target="_blank" rel="noopener">GoFloats Drink Holders 3 Pack</a></td><td>充气杯垫套装</td><td>B01EYYRF64</td><td>$7.99</td><td>1,113</td><td>$8,893</td><td>4.6★ / 6,197</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B0CX817XWN" target="_blank" rel="noopener">YGSEPCC Inflatable Drink Holder 15 Pack</a></td><td>充气杯垫套装</td><td>B0CX817XWN</td><td>$12.99</td><td>781</td><td>$10,145</td><td>4.3★ / 166</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B08XNHW5PY" target="_blank" rel="noopener">Zcaukya 12 Pack Drink Floats</a></td><td>充气杯垫套装</td><td>B08XNHW5PY</td><td>$11.99</td><td>581</td><td>$6,966</td><td>4.4★ / 999</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B00O80WA38" target="_blank" rel="noopener">INTEX Mega Chill Inflatable Cooler</a></td><td>漂浮冰桶/杯架</td><td>B00O80WA38</td><td>$21.93</td><td>605</td><td>$13,268</td><td>4.4★ / 7,937</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B07Q2NS2G1" target="_blank" rel="noopener">BubbleWally Floating Wine Glasses</a></td><td>漂浮酒杯</td><td>B07Q2NS2G1</td><td>$25.00</td><td>347</td><td>$8,241</td><td>4.6★ / 1,122</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B09XDPQ143" target="_blank" rel="noopener">Human Bobber Floating Drink Holder</a></td><td>漂浮饮料架</td><td>B09XDPQ143</td><td>$19.99</td><td>237</td><td>$4,738</td><td>4.4★ / 970</td></tr>
+              <tr><td>Buoya floating bottle</td><td>竖直漂浮水瓶</td><td>未命中</td><td>$49.41</td><td>未获取</td><td>未获取</td><td>3.5★ / 20</td></tr>
             </tbody>
           </table>
+        </div>
+        <p class="source-note">Buoya 的价格、评分和评论数来自原始报告；本轮 Sorftime `Buoya floating bottle` 未找到相关产品，因此暂不写入销量估算。后续需要用 Amazon 前台、Keepa 或 Helium10 复核该 ASIN 级销量。</p>
+      </div>
+    </section>
+
+    <section id="keywords">
+      <div class="wrap">
+        <div class="section-kicker">Keyword trend</div>
+        <h2>关键词与季节性：5-7 月是主战场</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>关键词</th><th>月搜索量</th><th>周搜索量</th><th>CPC</th><th>搜索结果竞品数</th><th>旺季</th><th>用途判断</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>pool floats</td><td>286,749</td><td>68,217</td><td>$1.10</td><td>114,674</td><td>5月, 6月, 7月</td><td>主需求词，流量大但竞争强</td></tr>
+              <tr><td>pool float</td><td>101,636</td><td>24,185</td><td>$1.10</td><td>115,843</td><td>5月, 6月, 7月</td><td>主需求词，适合看季节峰值</td></tr>
+              <tr><td>pool floaties</td><td>66,360</td><td>16,539</td><td>$1.10</td><td>12,861</td><td>5月, 6月, 7月</td><td>偏玩具/休闲语义，竞争数低于 pool float</td></tr>
+              <tr><td>inflatable drink holder</td><td>3,021</td><td>1,134</td><td>$0.71</td><td>8,231</td><td>5月, 6月, 7月</td><td>更接近成交场景，适合广告精准词</td></tr>
+              <tr><td>floating drink holder</td><td>669</td><td>241</td><td>$0.39</td><td>14,811</td><td>5月, 6月, 7月</td><td>长尾精准词，量小但语义明确</td></tr>
+              <tr><td>pool drink holder</td><td>821</td><td>224</td><td>$0.96</td><td>31,393</td><td>5月, 6月, 7月</td><td>长尾相关词，竞争结果偏杂</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">趋势数据来自 Sorftime US `keyword_detail` 与 `keyword_trend`。`floating water bottle` 本身不是热搜词，工具提示相关词会转向普通 water bottle，因此不作为核心投放词。</p>
+
+        <div class="grid-2" style="margin-top:16px;">
+          <div class="panel trend-card">
+            <h3>pool floats 搜索量趋势</h3>
+            <div class="trend-meta"><span>2025峰值：6月 982,082</span><span>2026已升温：4月 284,068</span></div>
+            <svg class="sparkline" viewBox="0 0 620 142" role="img" aria-label="pool floats monthly search trend">
+              <line class="axis" x1="24" y1="118" x2="596" y2="118"></line>
+              <polygon class="area" points="24,79 50,57 76,100 102,114 128,115 154,116 180,113 206,105 232,89 258,77 284,50 310,18 336,48 362,86 388,113 414,116 440,117 466,117 492,116 518,114 544,90 570,85 596,118 24,118"></polygon>
+              <polyline points="24,79 50,57 76,100 102,114 128,115 154,116 180,113 206,105 232,89 258,77 284,50 310,18 336,48 362,86 388,113 414,116 440,117 466,117 492,116 518,114 544,90 570,85"></polyline>
+            </svg>
+            <div class="spark-caption"><span>2024-05</span><span>2025-06峰值</span><span>2026-04</span></div>
+          </div>
+          <div class="panel trend-card">
+            <h3>pool float 搜索量趋势</h3>
+            <div class="trend-meta"><span>2025峰值：6月 233,681</span><span>淡季：10-12月约 24K-28K</span></div>
+            <svg class="sparkline" viewBox="0 0 620 142" role="img" aria-label="pool float monthly search trend">
+              <line class="axis" x1="24" y1="118" x2="596" y2="118"></line>
+              <polygon class="area" points="24,49 50,18 76,48 102,84 128,99 154,114 180,115 206,115 232,114 258,101 284,87 310,78 336,57 362,27 388,53 414,83 440,105 466,117 492,118 518,117 544,115 570,101 596,84 24,118"></polygon>
+              <polyline points="24,49 50,18 76,48 102,84 128,99 154,114 180,115 206,115 232,114 258,101 284,87 310,78 336,57 362,27 388,53 414,83 440,105 466,117 492,118 518,117 544,115 570,101 596,84"></polyline>
+            </svg>
+            <div class="spark-caption"><span>2024-05</span><span>2025-06峰值</span><span>2026-04</span></div>
+          </div>
+          <div class="panel trend-card">
+            <h3>pool floaties 搜索量趋势</h3>
+            <div class="trend-meta"><span>2025峰值：6月 99,751</span><span>2026年3-4月已提前抬升</span></div>
+            <svg class="sparkline" viewBox="0 0 620 142" role="img" aria-label="pool floaties monthly search trend">
+              <line class="axis" x1="24" y1="118" x2="596" y2="118"></line>
+              <polygon class="area" points="24,38 50,18 76,35 102,91 128,100 154,113 180,117 206,118 232,105 258,98 284,91 310,75 336,41 362,21 388,42 414,62 440,97 466,109 492,113 518,115 544,103 570,96 596,54 24,118"></polygon>
+              <polyline points="24,38 50,18 76,35 102,91 128,100 154,113 180,117 206,118 232,105 258,98 284,91 310,75 336,41 362,21 388,42 414,62 440,97 466,109 492,113 518,115 544,103 570,96 596,54"></polyline>
+            </svg>
+            <div class="spark-caption"><span>2024-05</span><span>2025-06峰值</span><span>2026-04</span></div>
+          </div>
+          <div class="panel trend-card">
+            <h3>inflatable drink holder 搜索量趋势</h3>
+            <div class="trend-meta"><span>2025峰值：6月 11,978</span><span>窄词，季节性更陡峭</span></div>
+            <svg class="sparkline" viewBox="0 0 620 142" role="img" aria-label="inflatable drink holder monthly search trend">
+              <line class="axis" x1="24" y1="118" x2="596" y2="118"></line>
+              <polygon class="area" points="24,36 76,18 128,54 180,100 232,118 284,115 336,77 388,43 440,40 492,62 544,116 596,95 24,118"></polygon>
+              <polyline points="24,36 76,18 128,54 180,100 232,118 284,115 336,77 388,43 440,40 492,62 544,116 596,95"></polyline>
+            </svg>
+            <div class="spark-caption"><span>2024-05</span><span>2025-06峰值</span><span>2026-04</span></div>
+          </div>
         </div>
       </div>
     </section>
