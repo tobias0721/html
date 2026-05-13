@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>漂浮水瓶市场调研报告</title>
+  <style>
+    :root {
+      --paper: #f4f6f0;
+      --panel: #ffffff;
+      --panel-2: #edf4f2;
+      --ink: #17211f;
+      --muted: #68736f;
+      --line: #d8dfd8;
+      --green: #15724f;
+      --mint: #dff4e9;
+      --coral: #c85c3f;
+      --amber: #ad7317;
+      --blue: #246a8f;
+      --shadow: 0 18px 50px rgba(24, 40, 36, .10);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(120deg, rgba(21,114,79,.12), transparent 34%),
+        linear-gradient(270deg, rgba(36,106,143,.10), transparent 42%),
+        var(--paper);
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+
+    header {
+      padding: 28px 0 18px;
+      border-bottom: 1px solid rgba(23,33,31,.10);
+    }
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 11px;
+      border: 1px solid rgba(21,114,79,.25);
+      border-radius: 999px;
+      background: var(--mint);
+      color: var(--green);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(34px, 9vw, 78px);
+      line-height: 1;
+      font-weight: 850;
+    }
+    .dek {
+      max-width: 760px;
+      margin: 20px 0 0;
+      color: #37423f;
+      font-size: clamp(16px, 4vw, 21px);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 28px 0 4px;
+    }
+    .metric {
+      min-height: 112px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .metric strong {
+      display: block;
+      font-size: clamp(28px, 8vw, 42px);
+      line-height: 1;
+      margin-bottom: 9px;
+    }
+    .metric span { color: var(--muted); font-size: 13px; }
+    .metric small { display: block; color: #8c958f; font-size: 12px; margin-top: 3px; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      margin: 0;
+      background: rgba(244,246,240,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(23,33,31,.10);
+    }
+    nav .wrap {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 16px;
+      scrollbar-width: none;
+    }
+    nav .wrap::-webkit-scrollbar { display: none; }
+    nav a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.68);
+      color: #34403c;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    section { padding: 34px 0; }
+    h2 {
+      margin: 0 0 16px;
+      font-size: clamp(23px, 6vw, 36px);
+      line-height: 1.12;
+    }
+    h3 { margin: 0 0 10px; font-size: 18px; line-height: 1.25; }
+    p { margin: 0 0 14px; }
+    .section-kicker {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 4vw, 28px);
+    }
+    .callout {
+      border-left: 5px solid var(--green);
+      background: linear-gradient(90deg, rgba(21,114,79,.10), #fff 44%);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 12px; }
+    .stack { display: grid; gap: 12px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      background: #f1f5f1;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      margin: 0 6px 6px 0;
+    }
+    .problem {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+    .problem b {
+      color: var(--coral);
+      font-size: 15px;
+    }
+    .problem strong { display: block; margin-bottom: 3px; }
+    .muted { color: var(--muted); }
+    .green { color: var(--green); }
+    .coral { color: var(--coral); }
+    .amber { color: var(--amber); }
+    .blue { color: var(--blue); }
+
+    .market-card {
+      min-height: 245px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .market-card .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+    .compact-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .compact-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-top: 1px solid #edf0ec;
+      font-size: 13px;
+    }
+
+    .bars { display: grid; gap: 12px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(92px, 145px) 1fr 70px;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+    }
+    .track {
+      height: 12px;
+      background: #e7ece7;
+      border: 1px solid #d9e0d9;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 13px 14px;
+      border-bottom: 1px solid #e8ede8;
+      vertical-align: top;
+    }
+    th {
+      color: #52605b;
+      background: #f8faf6;
+      font-size: 12px;
+    }
+    tr:last-child td { border-bottom: 0; }
+
+    .timeline {
+      counter-reset: step;
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 15px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+    .step:before {
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      background: var(--ink);
+      color: white;
+      font-weight: 850;
+    }
+    footer {
+      padding: 28px 0 48px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 780px) {
+      .wrap { width: min(100% - 24px, 1120px); }
+      header { padding-top: 22px; }
+      .topline { align-items: flex-start; }
+      .hero-grid, .grid-2, .grid-3, .mini-stats { grid-template-columns: 1fr; }
+      .metric { min-height: 96px; }
+      section { padding: 26px 0; }
+      .bar-row { grid-template-columns: 92px 1fr 54px; }
+      .panel { padding: 18px; }
+      nav .wrap { padding-left: 12px; padding-right: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topline">
+        <span>Amazon US 数据 · 2026.05.10</span>
+        <span class="badge">蓝海机会</span>
+      </div>
+      <h1>漂浮水瓶市场调研</h1>
+      <p class="dek">搜索结果很多，但真正让水瓶本身竖直漂浮的产品几乎没有。现有唯一竞品评分低、容量虚标、体验缺口明显。</p>
+      <div class="hero-grid">
+        <div class="metric"><strong class="green">1</strong><span>竖直漂浮竞品</span><small>Buoya 独家</small></div>
+        <div class="metric"><strong class="coral">3.5★</strong><span>竞品评分</span><small>仅 20 条评论</small></div>
+        <div class="metric"><strong class="amber">$49</strong><span>竞品定价</span><small>价格偏高</small></div>
+        <div class="metric"><strong class="blue">~35</strong><span>漂浮类相关产品</span><small>饮料架为主</small></div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap">
+      <a href="#insight">核心发现</a>
+      <a href="#competitor">竞品拆解</a>
+      <a href="#market">市场格局</a>
+      <a href="#data">销量信号</a>
+      <a href="#matrix">机会矩阵</a>
+      <a href="#action">下一步</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="insight">
+      <div class="wrap">
+        <div class="panel callout">
+          <div class="section-kicker">Main finding</div>
+          <h2>市场不是没有需求，而是没有一款真正解决问题的漂浮保温杯。</h2>
+          <p>Amazon 上搜索 “floating water bottle” 有 <strong>407</strong> 个结果，但真正能让水瓶本身竖直漂浮的产品只有 <strong>1</strong> 个：Buoya。其余大多是漂浮饮料架、泳池杯垫或漂浮酒杯。</p>
+          <p>Buoya 评分仅 <strong class="coral">3.5★</strong>，评论只有 <strong>20</strong> 条，负评集中在容量虚标、杯口贴近水面、保温失效、体积大且只能手洗。这里的机会点不是“再做一个配件”，而是做一个可漂浮、保温、大容量、卫生且易找回的水瓶。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="competitor">
+      <div class="wrap">
+        <div class="section-kicker">Competitor</div>
+        <h2>唯一竞品 Buoya：问题比卖点更清楚</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="mini-stats">
+              <div><strong class="coral" style="font-size:28px;">$49.41</strong><br><span class="muted">定价</span></div>
+              <div><strong class="coral" style="font-size:28px;">3.5★</strong><br><span class="muted">20 评论</span></div>
+              <div><strong class="coral" style="font-size:28px;">12oz</strong><br><span class="muted">实际约 8oz</span></div>
+            </div>
+            <p class="muted">高价位没有换来高体验，反而把用户对“漂浮保温杯”的核心期待暴露得很集中。</p>
+          </div>
+          <div class="panel">
+            <h3>用户集中抱怨的 5 个问题</h3>
+            <div class="problem"><b>#1</b><div><strong>容量虚标近 33%</strong><span class="muted">标称 12oz，实际只能装约 8oz。底部实心配重占比过大。</span></div></div>
+            <div class="problem"><b>#2</b><div><strong>漂浮时杯口贴近水面</strong><span class="muted">液体容易与池水接触或溢出，卫生隐患明显。</span></div></div>
+            <div class="problem"><b>#3</b><div><strong>保温功能失效</strong><span class="muted">用户反馈不能保持饮料冷或热，与宣传不符。</span></div></div>
+            <div class="problem"><b>#4</b><div><strong>体积大、重量沉</strong><span class="muted">21.6cm 高、635g 重，但容量只接近 8oz。</span></div></div>
+            <div class="problem"><b>#5</b><div><strong>仅限手洗</strong><span class="muted">户外和泳池场景下，清洁成本偏高。</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="market">
+      <div class="wrap">
+        <div class="section-kicker">Market map</div>
+        <h2>现有市场分三类，真正的空位在第三类</h2>
+        <div class="grid-3">
+          <article class="panel market-card">
+            <div>
+              <h3>漂浮饮料架</h3>
+              <p class="label">数量最多，但只是托着杯子</p>
+              <ul class="compact-list">
+                <li><span>Human Bobber</span><b>4.4★ / 970</b></li>
+                <li><span>DIVEBLAST</span><b>4.4★ / 2,717</b></li>
+                <li><span>充气造型款</span><b>4.2-4.6★</b></li>
+              </ul>
+            </div>
+            <p class="muted">价格：$12-$30。痛点是需要额外携带，杯子本身仍不防沉。</p>
+          </article>
+          <article class="panel market-card">
+            <div>
+              <h3>漂浮酒杯</h3>
+              <p class="label">泳池派对场景，非日常水杯</p>
+              <ul class="compact-list">
+                <li><span>BubbleWally</span><b>4.6★ / 1,123</b></li>
+                <li><span>Pool Floating Glass</span><b>4.3-4.6★</b></li>
+                <li><span>Tritan 材质杯</span><b>4.0-4.6★</b></li>
+              </ul>
+            </div>
+            <p class="muted">价格：$25-$50 套装。痛点是无保温、容量小、场景窄。</p>
+          </article>
+          <article class="panel market-card" style="border-color: rgba(21,114,79,.35); background: linear-gradient(180deg, #fff, #eef8f2);">
+            <div>
+              <h3 class="green">竖直漂浮保温杯</h3>
+              <p class="label">市场空白，没有合格产品</p>
+              <ul class="compact-list">
+                <li><span>Buoya 唯一竞品</span><b class="coral">3.5★ / 20</b></li>
+                <li><span>其他品牌</span><b class="muted">暂无</b></li>
+              </ul>
+            </div>
+            <p><strong>机会点：</strong>保温杯 + 竖直漂浮 + 大容量。<br><strong>定价空间：</strong>$25-$40。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-kicker">Price position</div>
+        <h2>价格带：避开 Buoya 的高价低体验</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="bars">
+              <div class="bar-row"><span>饮料架</span><div class="track"><div class="bar" style="width:38%"></div></div><b>$12-$20</b></div>
+              <div class="bar-row"><span>酒杯套装</span><div class="track"><div class="bar" style="width:70%"></div></div><b>$25-$40</b></div>
+              <div class="bar-row"><span>机会定位</span><div class="track"><div class="bar" style="width:82%"></div></div><b>$30-$45</b></div>
+              <div class="bar-row"><span>Buoya</span><div class="track"><div class="bar" style="width:95%; background: linear-gradient(90deg, var(--coral), var(--amber));"></div></div><b>$49</b></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>建议定位</h3>
+            <p>首发价不要追 Buoya 的 $49。更合理的位置是 <strong>$30-$35</strong>，用“保温、大容量、瓶口高出水面、显眼配色、可清洗”解释溢价。</p>
+            <span class="pill">泳池</span><span class="pill">桨板</span><span class="pill">皮划艇</span><span class="pill">海钓</span><span class="pill">船钓</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="data">
+      <div class="wrap">
+        <div class="section-kicker">Demand signals</div>
+        <h2>漂浮配件销量信号：需求真实存在</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>高评论产品</h3>
+            <div class="bars">
+              <div class="bar-row"><span>DIVEBLAST</span><div class="track"><div class="bar" style="width:100%"></div></div><b>2,717</b></div>
+              <div class="bar-row"><span>BubbleWally</span><div class="track"><div class="bar" style="width:41%"></div></div><b>1,123</b></div>
+              <div class="bar-row"><span>FEEBRIA</span><div class="track"><div class="bar" style="width:39%"></div></div><b>1,063</b></div>
+              <div class="bar-row"><span>Zcaukya</span><div class="track"><div class="bar" style="width:37%"></div></div><b>999</b></div>
+              <div class="bar-row"><span>Human Bobber</span><div class="track"><div class="bar" style="width:36%"></div></div><b>970</b></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>用户痛点转译</h3>
+            <ul class="compact-list">
+              <li><span>饮料架要额外携带</span><b class="coral">麻烦</b></li>
+              <li><span>普通水杯落水会沉</span><b class="coral">损失</b></li>
+              <li><span>漂浮酒杯没有保温</span><b class="coral">体验短</b></li>
+              <li><span>Buoya 容量太小</span><b class="coral">不够喝</b></li>
+              <li><span>杯口沾水</span><b class="coral">不卫生</b></li>
+              <li><span>水面找不到杯子</span><b class="coral">低可见</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="margin-top:16px;">
+          <table>
+            <thead>
+              <tr><th>产品名称</th><th>类型</th><th>价格</th><th>评分</th><th>评论数</th><th>BSR/类目</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>DIVEBLAST 鳄梨饮料架</td><td>充气大型平台</td><td>$29.10</td><td>4.4★</td><td>2,717</td><td>#25 泳池配件</td></tr>
+              <tr><td>Zcaukya 12只装充气杯垫</td><td>充气套装</td><td>$15.19</td><td>4.4★</td><td>999</td><td>套装热销</td></tr>
+              <tr><td>Human Bobber 充气饮料架</td><td>充气手掌造型</td><td>$25.32</td><td>4.4★</td><td>970</td><td>派对场景爆款</td></tr>
+              <tr><td>BubbleWally 漂浮酒杯套装</td><td>Tritan 酒杯</td><td>$25.00</td><td>4.6★</td><td>1,123</td><td>泳池派对</td></tr>
+              <tr><td>充气饮料架 35 个装</td><td>派对套装</td><td>$29.11</td><td>4.6★</td><td>302</td><td>派对/礼品</td></tr>
+              <tr><td>DIVEBLAST 24 罐冷却器</td><td>充气保温冷却器</td><td>$56.97</td><td>4.6★</td><td>74</td><td>高端场景</td></tr>
+              <tr><td>Rtteri 氯丁橡胶 4 件套</td><td>氯丁橡胶杯垫</td><td>$31.66</td><td>4.3★</td><td>55</td><td>中档价位</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="matrix">
+      <div class="wrap">
+        <div class="section-kicker">Opportunity matrix</div>
+        <h2>差异化不在“漂浮”两个字，而在完整体验</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>功能维度</th><th>Buoya</th><th>漂浮饮料架</th><th>漂浮酒杯</th><th>我们的机会</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>竖直漂浮</td><td>杯口近水面</td><td>不适用</td><td>不适用</td><td>瓶口高出水面</td></tr>
+              <tr><td>保温保冷</td><td>用户反馈失效</td><td>无</td><td>无</td><td>真空保温</td></tr>
+              <tr><td>容量</td><td>约 8oz，虚标 12oz</td><td>无</td><td>16-21oz</td><td>20-30oz 实标</td></tr>
+              <tr><td>可见度</td><td>无明显设计</td><td>无</td><td>无</td><td>荧光色 + 反光条</td></tr>
+              <tr><td>密封</td><td>普通盖</td><td>无</td><td>无</td><td>磁吸或卡扣防浪密封</td></tr>
+              <tr><td>配重</td><td>固定配重</td><td>无</td><td>无</td><td>可拆卸底座</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-kicker">Audience and economics</div>
+        <h2>目标用户和粗略盈利测算</h2>
+        <div class="grid-3">
+          <div class="panel"><h3>泳池休闲族</h3><p class="muted">家庭泳池或公共泳池用户，希望边泡水边喝水，不想杯子沉底。</p></div>
+          <div class="panel"><h3>水上运动用户</h3><p class="muted">皮划艇、桨板、漂流场景，掉水后不沉，荧光色方便找回。</p></div>
+          <div class="panel"><h3>海钓/船钓人群</h3><p class="muted">船上使用，抗浪稳，不易打翻，冷饮保持时间更长。</p></div>
+        </div>
+        <div class="grid-2" style="margin-top:16px;">
+          <div class="panel"><h3>测算</h3><p><strong>$30-$35</strong> 建议售价；<strong>$12-$15</strong> 预估成本；<strong>$15-$20</strong> 毛利/件；毛利率约 <strong>50%-60%</strong>。</p></div>
+          <div class="panel"><h3>年营收潜力</h3><p class="muted">保守 500-1,000 月销量；乐观借助夏季季节性，可达 2,000-3,000 月销量。年营收区间约 $180K-$1.26M。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="action">
+      <div class="wrap">
+        <div class="section-kicker">Risks and next moves</div>
+        <h2>先验证专利和浮力结构，再谈上架</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>主要风险</h3>
+            <ul class="compact-list">
+              <li><span>三层结构供应链</span><b>真空层 + 泡沫层 + 配重</b></li>
+              <li><span>食品接触材料认证</span><b>FDA / LFGB</b></li>
+              <li><span>季节性</span><b>5-9 月集中</b></li>
+              <li><span>Buoya 专利</span><b>需要检索规避</b></li>
+              <li><span>FBA 重量分级</span><b>配重增加成本</b></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>下一步行动</h3>
+            <div class="timeline">
+              <div class="step"><div><strong>专利检索</strong><br><span class="muted">搜索 Buoya 相关专利，确认设计空间。</span></div></div>
+              <div class="step"><div><strong>3D 打样</strong><br><span class="muted">做 1-2 个手板验证重心和浮力计算。</span></div></div>
+              <div class="step"><div><strong>工厂询价</strong><br><span class="muted">找能做复合结构的保温杯厂。</span></div></div>
+              <div class="step"><div><strong>关键词验证</strong><br><span class="muted">查 pool tumbler、floating cup 等搜索量和销量。</span></div></div>
+              <div class="step"><div><strong>众筹试水</strong><br><span class="muted">Kickstarter / Indiegogo 验证需求并积累种子用户。</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">数据来源：Amazon US 搜索页与产品详情页抓取整理。评论数用作累积需求信号，不等同于真实销量。</div>
+  </footer>
+</body>
+</html>
