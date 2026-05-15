@@ -1,229 +1,563 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="zh-CN" xml:lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Claude Code 101 学习索引</title>
-  <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="/Users/tobias/.codex/skills/huashu-md-html/templates/reading/theme.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content="huashu-md-html · article theme" />
+
+
+
+
+  <title>Claude Code 101 中文学习笔记</title>
+
+  <!-- Web fonts: Newsreader (display+body serif) + IBM Plex Sans (UI) + JetBrains Mono (code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <link rel="stylesheet" href="/Users/tobias/.codex/skills/huashu-md-html/templates/article/theme.css" />
+
 </head>
 <body>
-<header id="title-block-header">
-<h1 class="title">Claude Code 101 学习索引</h1>
-</header>
+  <!-- Reading progress bar -->
+  <div id="reading-progress" aria-hidden="true"></div>
+
+
+  <header class="title-block" role="banner">
+
+    <h1 class="title">Claude Code 101 中文学习笔记</h1>
+
+
+
+  </header>
+
+  <main role="main">
+
+    <article>
 <p>来源：<a
 href="https://www.youtube.com/playlist?list=PLmWCw1CzcFilebjK89WLb5cAvM8K0cLB3"
 class="uri">https://www.youtube.com/playlist?list=PLmWCw1CzcFilebjK89WLb5cAvM8K0cLB3</a></p>
-<p>处理方式： - 使用 <code>huashu-md-html</code> 的 YouTube/URL 转
-markdown 流程作为入口。 - MarkItDown 对 playlist 和单视频当前只抓到
-YouTube 页脚，因此补用 <code>yt-dlp</code> 获取播放列表元数据。 -
-第一集检查到 YouTube 自动字幕/自动翻译轨道中包含
-<code>zh-Hans</code>，但没有作者上传的正式字幕。 -
-这里先做中文学习辅助，不输出整套逐字中文字幕。</p>
-<h2 id="课程结构">课程结构</h2>
+<p>这份笔记不是逐字字幕，而是基于课程字幕整理的学习版：保留知识点、案例、操作路径和你后续使用
+Codex/Claude Code 时真正需要记住的判断。</p>
+<h2 id="一句话总览">一句话总览</h2>
+<p>Claude Code
+不是“更懂代码的聊天框”，而是一个能进入代码库、读取文件、运行命令、修改文件、调用外部工具，并通过验证结果来推进任务的
+coding agent。</p>
+<p>最重要的学习主线是：</p>
+<ol type="1">
+<li>先理解 agentic loop：输入目标 -&gt; 收集上下文 -&gt; 调用工具/改代码
+-&gt; 验证结果 -&gt; 继续迭代。</li>
+<li>再学会用 <code>Plan Mode</code>
+管住复杂任务：先读代码和做方案，不急着改文件。</li>
+<li>用 <code>CLAUDE.md</code> / <code>AGENTS.md</code>
+这类项目记忆文件稳定协作规则。</li>
+<li>用 context management、MCP、skills、hooks 让 agent
+变成可控的工程助手。</li>
+</ol>
+<h2 id="claude-code-是什么">1. Claude Code 是什么</h2>
+<p>Claude Code 的核心能力：</p>
+<ul>
+<li>读取并理解整个项目目录。</li>
+<li>编辑文件、创建文件、运行 shell command。</li>
+<li>执行测试、构建、安装依赖，并根据命令输出继续判断。</li>
+<li>必要时接入外部工具或服务，例如文档、项目管理系统、数据库、浏览器、MCP
+server。</li>
+<li>在终端、VS Code、JetBrains、Claude Desktop、Web
+等不同入口中工作。</li>
+</ul>
+<p>普通 Claude Chat 和 Claude Code 的关键差别：</p>
 <table>
-<colgroup>
-<col style="width: 23%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 23%" />
-<col style="width: 17%" />
-</colgroup>
 <thead>
 <tr>
-<th style="text-align: right;">序号</th>
-<th>英文标题</th>
-<th>中文学习标题</th>
-<th style="text-align: right;">时长</th>
-<th>学习目标</th>
+<th>普通聊天</th>
+<th>Claude Code</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: right;">1</td>
-<td>What is Claude Code?</td>
-<td>Claude Code 是什么</td>
-<td style="text-align: right;">2:56</td>
-<td>建立对 Claude Code
-的基本定位：它不是普通聊天窗口，而是面向代码库工作的 coding agent。</td>
+<td>主要靠你复制粘贴代码</td>
+<td>直接进入代码库工作</td>
 </tr>
 <tr>
-<td style="text-align: right;">2</td>
-<td>Installing Claude Code</td>
-<td>安装 Claude Code</td>
-<td style="text-align: right;">3:02</td>
-<td>理解安装前提、CLI 入口和首次运行时需要确认的环境条件。</td>
+<td>输出建议或代码片段</td>
+<td>能修改文件并执行命令</td>
 </tr>
 <tr>
-<td style="text-align: right;">3</td>
-<td>How Claude Code Works</td>
-<td>Claude Code 如何工作</td>
-<td style="text-align: right;">2:51</td>
-<td>理解它如何读取项目、执行命令、修改文件，并通过上下文推进任务。</td>
+<td>不天然知道项目结构</td>
+<td>可以搜索、读取、理解项目</td>
 </tr>
 <tr>
-<td style="text-align: right;">4</td>
-<td>Your first Claude Code prompt</td>
-<td>第一个 Claude Code prompt</td>
-<td style="text-align: right;">2:27</td>
-<td>学会把需求写成可执行任务，而不是只写泛泛的问题。</td>
-</tr>
-<tr>
-<td style="text-align: right;">5</td>
-<td>The CLAUDE.md file</td>
-<td>CLAUDE.md 文件</td>
-<td style="text-align: right;">3:01</td>
-<td>理解项目级指令文件如何让 agent 记住仓库规则、命令和偏好。</td>
-</tr>
-<tr>
-<td style="text-align: right;">6</td>
-<td>The Explore -&gt; Plan -&gt; Code -&gt; Commit workflow in Claude
-Code</td>
-<td>Explore -&gt; Plan -&gt; Code -&gt; Commit 工作流</td>
-<td style="text-align: right;">3:12</td>
-<td>学习先探索、再计划、再编码、最后提交的基本协作节奏。</td>
-</tr>
-<tr>
-<td style="text-align: right;">7</td>
-<td>Context Management in Claude Code</td>
-<td>Claude Code 的上下文管理</td>
-<td style="text-align: right;">3:52</td>
-<td>理解上下文窗口、文件读取、任务聚焦和长期协作中的信息管理。</td>
-</tr>
-<tr>
-<td style="text-align: right;">8</td>
-<td>MCP in Claude Code</td>
-<td>Claude Code 里的 MCP</td>
-<td style="text-align: right;">3:37</td>
-<td>理解 MCP 如何把外部工具、数据源和服务接入 agent。</td>
-</tr>
-<tr>
-<td style="text-align: right;">9</td>
-<td>Hooks in Claude Code</td>
-<td>Claude Code Hooks</td>
-<td style="text-align: right;">3:22</td>
-<td>理解 hooks 如何在特定事件前后执行自动化检查或流程。</td>
+<td>更像顾问</td>
+<td>更像受控执行者</td>
 </tr>
 </tbody>
 </table>
-<h2 id="推荐学习顺序">推荐学习顺序</h2>
-<ol type="1">
-<li>先看第 1-3 集，建立 Claude Code
-的基本模型：它能看项目、跑命令、改文件。</li>
-<li>再看第 4-6 集，重点练习如何把一个模糊需求拆成可执行任务。</li>
-<li>最后看第 7-9 集，把上下文管理、MCP、hooks 看成让 agent
-稳定工作的工程化机制。</li>
-</ol>
-<h2 id="观看辅助">观看辅助</h2>
-<p>YouTube 当前提供自动中文字幕轨道。观看时可以：</p>
-<ol type="1">
-<li>打开视频。</li>
-<li>点 <code>CC</code> 或字幕按钮。</li>
-<li>在字幕设置里选择 <code>Chinese (Simplified)</code> /
-<code>中文（简体）</code>，如果没有显示就选择自动翻译到中文。</li>
-</ol>
-<p>建议每集按这个模板做笔记：</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## 第 X 集：标题</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">### 这一集解决什么问题</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### 关键概念</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">### 和我的 Codex 使用有什么关系</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">### 可以马上尝试的动作</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### 不懂的问题</span></span></code></pre></div>
-<h2 id="本地文件">本地文件</h2>
+<p>你要建立的基本心智模型：</p>
+<blockquote>
+<p>Claude Code = LLM + 工具调用 + 项目上下文 + 权限控制 + 验证循环。</p>
+</blockquote>
+<h2 id="安装和入口怎么选">2. 安装和入口怎么选</h2>
+<p>课程讲了几种入口：</p>
 <ul>
-<li>播放列表元数据：<code>youtube-study/playlist_videos.jsonl</code></li>
-<li>MarkItDown 原始尝试：<code>youtube-study/playlist_raw.md</code></li>
-<li>第一集 MarkItDown
-原始尝试：<code>youtube-study/01-what-is-claude-code.raw.md</code></li>
+<li>Terminal：功能更新最快，最适合重度使用。</li>
+<li>VS Code / JetBrains：适合想在 IDE 内直接使用 Claude Code
+的场景。</li>
+<li>Claude Desktop：适合让 Claude 在后台跑任务，自己继续做别的事。</li>
+<li>Claude Web：适合远程处理 GitHub repo，或并行开多个 session。</li>
 </ul>
+<p>学习建议：</p>
+<ul>
+<li>初学时优先用
+Terminal，因为你能清楚看到它在读什么、跑什么命令、改了什么文件。</li>
+<li>如果是写前端 UI，再结合浏览器测试工具或 Chrome
+extension，让它能实际验证页面。</li>
+<li>如果你只是让它远程处理 GitHub repo，可以用
+Web，但本地项目上下文会弱一些。</li>
+</ul>
+<h2 id="claude-code-的工作循环">3. Claude Code 的工作循环</h2>
+<p>课程把 Claude Code 的工作方式解释为 agentic loop：</p>
+<ol type="1">
+<li>你给出 prompt。</li>
+<li>Claude Code 判断需要哪些上下文。</li>
+<li>它读取文件、搜索代码、运行工具或命令。</li>
+<li>它采取行动，例如改文件、装包、跑测试。</li>
+<li>它验证结果是否达到目标。</li>
+<li>没达到就继续循环，直到结果可验证或需要你介入。</li>
+</ol>
+<p>这和普通聊天最大的区别是：它不是一次性回答，而是在“做事 -&gt; 看结果
+-&gt; 再做事”。</p>
+<p>你在这个循环里有三个控制点：</p>
+<ul>
+<li>可以补充上下文：告诉它目标、约束、已有文件、参考实现。</li>
+<li>可以打断：发现方向不对时及时纠正。</li>
+<li>可以调整权限：决定是否让它自动改文件、是否每次命令都确认。</li>
+</ul>
+<h2 id="第一个-prompt-怎么写">4. 第一个 prompt 怎么写</h2>
+<p>课程里的案例是给一个应用加 dark mode toggle：</p>
+<p>需求不是简单写“帮我加暗色模式”，而是写成：</p>
+<ul>
+<li>在 header 上增加 toggle switch。</li>
+<li>支持用户在 light mode 和 dark mode 之间切换。</li>
+<li>基于现有 light theme 找到合适的 contrast color。</li>
+<li>先进入 plan mode，让 Claude 读代码并给出计划。</li>
+</ul>
+<p>这个案例的关键不是暗色模式本身，而是 prompt 写法：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>弱 prompt</th>
+<th>强 prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帮我加暗色模式</td>
+<td>在 header 增加 light/dark
+toggle，并基于现有主题选择可读性好的对比色</td>
+</tr>
+<tr>
+<td>改一下 UI</td>
+<td>说明用户入口、影响范围、视觉约束、验收标准</td>
+</tr>
+<tr>
+<td>直接写代码</td>
+<td>先 plan，再 review，再执行</td>
+</tr>
+</tbody>
+</table>
+<p>你可以直接套用的 prompt 模板：</p>
+<pre class="text"><code>我想实现 [功能]。
+请先进入分析/计划阶段，不要改文件。
+
+目标：
+- [用户能完成什么]
+- [入口在哪里]
+- [影响哪些页面/模块]
+
+约束：
+- 遵守当前项目风格
+- 不引入不必要依赖
+- 需要说明如何验证
+
+请先探索代码结构，给我实施计划和风险点。</code></pre>
+<h2 id="claude.md-项目记忆文件">5. <code>CLAUDE.md</code> /
+项目记忆文件</h2>
+<p><code>CLAUDE.md</code> 的作用是给 Claude Code
+提供项目级记忆。它像一个项目 onboarding script，告诉 agent：</p>
+<ul>
+<li>技术栈是什么。</li>
+<li>常用命令是什么。</li>
+<li>代码风格是什么。</li>
+<li>文件应该放在哪里。</li>
+<li>哪些模式优先，哪些写法不要用。</li>
+</ul>
+<p>课程里的例子是一个 Next.js 15 项目：</p>
+<ul>
+<li>使用 App Router。</li>
+<li>使用 Tailwind。</li>
+<li>使用 Drizzle ORM。</li>
+<li>命令包括 dev server、test、lint。</li>
+<li>代码风格包括 two-space indentation、prefer named exports。</li>
+<li>API routes 放在 <code>app/api</code>。</li>
+<li>能用 server actions 时优先 server actions。</li>
+</ul>
+<p>这和你的 Codex 使用非常相关。你现在这个工作树里的
+<code>AGENTS.md</code>
+本质上就是同类文件：把长期偏好、路径、飞书规则、Obsidian 规则写给
+agent。</p>
+<p>建议写入项目记忆文件的内容：</p>
+<ul>
+<li>项目目标：这个仓库是干什么的。</li>
+<li>关键路径：源码、数据、输出、脚本分别在哪里。</li>
+<li>常用命令：测试、构建、预览、发布。</li>
+<li>风格规则：命名、目录、语言、注释、提交规范。</li>
+<li>安全规则：哪些文件不能展示、不能提交、不能改。</li>
+<li>反复纠正过的习惯：只要你多次纠正 agent，就应该沉淀进记忆文件。</li>
+</ul>
+<p>不要一开始就写很长。课程建议先让 Claude
+工作一段时间，看你在哪里反复纠正它，再把必要规则写进去。</p>
+<h2 id="explore---plan---code---commit">6. Explore -&gt; Plan -&gt; Code
+-&gt; Commit</h2>
+<p>课程最重要的工作流是：</p>
+<blockquote>
+<p>Explore -&gt; Plan -&gt; Code -&gt; Commit</p>
+</blockquote>
+<p>不要一上来就让 Claude 写代码。先让它探索和计划，能减少后续返工。</p>
+<p>课程里的案例是给图片上传 pipeline 加 WebP conversion：</p>
+<p>好的任务写法：</p>
+<pre class="text"><code>I need to add WebP conversion to our image upload pipeline.
+Figure out where in the pipeline it should happen,
+whether we need new dependencies,
+and how to approach it.</code></pre>
+<p>这个 prompt 好在它没有直接命令“写代码”，而是让 Claude 先回答：</p>
+<ul>
+<li>转换应该发生在 pipeline 的哪一步。</li>
+<li>是否需要新依赖。</li>
+<li>实现路径是什么。</li>
+<li>可能的风险是什么。</li>
+</ul>
+<p>四阶段拆解：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>你要做什么</th>
+<th>Claude 要做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explore</td>
+<td>说明目标，让它读代码</td>
+<td>找相关文件、理解现有结构</td>
+</tr>
+<tr>
+<td>Plan</td>
+<td>审查方案，提出补充</td>
+<td>给出步骤、风险、验证方式</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>批准后执行</td>
+<td>修改文件、跑命令、修错误</td>
+</tr>
+<tr>
+<td>Commit</td>
+<td>人工复核后提交</td>
+<td>总结变更、生成 commit message</td>
+</tr>
+</tbody>
+</table>
+<p>实战建议：</p>
+<ul>
+<li>复杂任务先用 <code>Plan Mode</code>。</li>
+<li>在计划阶段纠偏，成本最低。</li>
+<li>验收标准要写清楚，比如测试通过、页面可打开、截图正确、命令无报错。</li>
+<li>提交前可以让另一个 code review agent 检查风险。</li>
+</ul>
+<h2 id="context-management上下文管理">7. Context
+Management：上下文管理</h2>
+<p>Context 是 Claude
+的工作记忆。它读过的文件、命令输出、你写的消息、工具结果，都会占用
+context window。</p>
+<p>关键命令：</p>
+<ul>
+<li><code>/context</code>：查看当前上下文占用情况。</li>
+<li><code>/compact</code>：压缩当前会话，保留摘要，释放上下文空间。</li>
+<li><code>/clear</code>：清空上下文，从头开始。</li>
+</ul>
+<p>什么时候 compact：</p>
+<ul>
+<li>当前功能还没做完。</li>
+<li>会话很长，但仍然围绕同一个目标。</li>
+<li>需要释放空间，但不能丢掉前面的工作结论。</li>
+</ul>
+<p>什么时候 clear：</p>
+<ul>
+<li>一个任务已经结束。</li>
+<li>准备开始完全不同的新任务。</li>
+<li>不希望上一个任务的假设污染新任务。</li>
+</ul>
+<p>课程里有一个重要提醒：</p>
+<blockquote>
+<p>prompt 写得太短，长期反而更浪费上下文。</p>
+</blockquote>
+<p>原因是你不给足约束，Claude
+就需要自己到处搜索、猜测、读更多文件，反而消耗更多
+context。更好的方式是：多写一两句关键约束，减少它无效探索。</p>
+<h2 id="mcp连接外部工具和数据源">8. MCP：连接外部工具和数据源</h2>
+<p>MCP 是 Model Context Protocol，用来让 Claude Code
+连接外部工具和数据源。</p>
+<p>典型用途：</p>
+<ul>
+<li>连接 Linear，读取团队 issue。</li>
+<li>连接 Context7，获取最新依赖文档。</li>
+<li>连接数据库、生产力工具、内部系统。</li>
+<li>通过远程 HTTP server 或本地 STDIO server 暴露工具。</li>
+</ul>
+<p>MCP server 的 scope：</p>
+<ul>
+<li><code>local</code>：只在当前项目对你可用。</li>
+<li><code>user</code>：你所有项目都可用。</li>
+<li><code>project</code>：写入
+<code>.mcp.json</code>，团队成员拉代码后也能获得同样配置。</li>
+</ul>
+<p>一个很重要的成本：</p>
+<blockquote>
+<p>MCP 工具定义会占用 context window。</p>
+</blockquote>
+<p>如果你开了很多无关 MCP
+server，即使不使用，也可能挤占上下文。课程建议：</p>
+<ul>
+<li>用 <code>/mcp</code> 查看已连接 server。</li>
+<li>不用的 MCP 关掉。</li>
+<li>如果工具有 CLI 替代，比如 GitHub 的 <code>gh</code>、AWS
+CLI，很多时候 CLI 更省 context。</li>
+<li>对于不需要常驻 context 的能力，可以考虑用
+skills：先只加载技能名和描述，需要时再展开。</li>
+</ul>
+<p>这和你现在的 Codex 使用高度相关：飞书、领星、Sorftime、Shopify
+等都可以看成不同层级的工具接入。关键不是接得越多越好，而是只在当前任务需要时加载。</p>
+<h2 id="hooks确定性控制">9. Hooks：确定性控制</h2>
+<p>Hooks 的核心是确定性：它不是“建议 Claude
+记得做”，而是“每次事件发生都执行”。</p>
+<p>课程给的常见场景：</p>
+<ul>
+<li>文件编辑后自动格式化。</li>
+<li>记录所有执行过的命令，满足审计要求。</li>
+<li>阻止危险操作，比如修改生产配置、执行 <code>rm -rf</code>、直接
+commit 到 main。</li>
+<li>Claude 任务完成后发送通知。</li>
+</ul>
+<p>Hooks 配置在 <code>settings.json</code> 里，可以按事件触发：</p>
+<ul>
+<li><code>UserPromptSubmit</code>：用户提交 prompt 后、Claude
+处理前。</li>
+<li><code>PreToolUse</code>：工具调用前。</li>
+<li><code>PostToolUse</code>：工具调用后。</li>
+<li><code>Notification</code>：发送通知时。</li>
+<li><code>Stop</code>：Claude 完成响应时。</li>
+</ul>
+<p>两个最实用的案例：</p>
+<h3 id="自动格式化">自动格式化</h3>
+<p>在 <code>PostToolUse</code> 里匹配 edit/multi-edit。Claude
+改完文件后，根据扩展名执行格式化：</p>
+<ul>
+<li>TypeScript 用 Prettier。</li>
+<li>Go 用 gofmt。</li>
+<li>Python 用 Ruff。</li>
+</ul>
+<p>这样不会依赖 Claude 是否记得运行格式化命令。</p>
+<h3 id="阻止危险操作">阻止危险操作</h3>
+<p>在 <code>PreToolUse</code>
+里读取工具名和输入。如果发现危险命令或危险路径：</p>
+<ul>
+<li>exit code <code>0</code>：允许执行。</li>
+<li>exit code <code>2</code>：阻止执行，并把错误信息反馈给 Claude。</li>
+</ul>
+<p>适合硬规则：</p>
+<ul>
+<li>禁止写生产配置目录。</li>
+<li>禁止包含 <code>rm -rf</code> 的 bash 命令。</li>
+<li>禁止直接 commit 到 main。</li>
+</ul>
+<p>课程里的判断非常实用：</p>
+<blockquote>
+<p>如果某件事必须每次都发生，不要写在 prompt 里，要写成 hook。</p>
+</blockquote>
+<h2 id="这套课对你最有用的部分">10. 这套课对你最有用的部分</h2>
+<p>结合你现在用 Codex 做个人助理、飞书、Obsidian、Amazon 研究、Lingxing
+数据、Shopify 页面，最值得吸收的是这几条：</p>
+<ol type="1">
+<li><p><strong>把 agent 当执行者，不要当聊天框。</strong><br />
+目标、输入、输出、约束、验证方式要讲清楚。</p></li>
+<li><p><strong>复杂任务先 Plan，不要直接 Code。</strong><br />
+尤其是涉及飞书表结构、Shopify
+主题、仓库提交、批量改文件时，先读环境再出方案。</p></li>
+<li><p><strong>把反复出现的偏好写进项目记忆。</strong><br />
+例如中文优先、敏感信息不展示、相对日期转绝对日期、飞书任务/日历优先等。</p></li>
+<li><p><strong>上下文要主动管理。</strong><br />
+一个任务结束就清理；同一个任务很长就
+compact；跨任务不要让旧假设污染新判断。</p></li>
+<li><p><strong>工具接入要克制。</strong><br />
+MCP、skills、CLI
+都是工具入口。当前任务需要什么就加载什么，避免上下文被无关工具占满。</p></li>
+<li><p><strong>硬规则用 hook，软规则用 memory。</strong><br />
+“偏好”写进 AGENTS/CLAUDE.md；“必须执行/必须阻止”的动作写 hook。</p></li>
+</ol>
+<h2 id="你可以马上练的-5-个任务">11. 你可以马上练的 5 个任务</h2>
+<h3 id="练习-1给任意项目写项目记忆文件">练习
+1：给任意项目写项目记忆文件</h3>
+<p>目标：让 Codex/Claude Code 进入项目后不用重新理解规则。</p>
+<p>写入：</p>
+<ul>
+<li>项目用途。</li>
+<li>常用命令。</li>
+<li>输出路径。</li>
+<li>禁止展示的敏感信息。</li>
+<li>代码风格。</li>
+<li>你最常纠正 agent 的 3 条规则。</li>
+</ul>
+<h3 id="练习-2用-plan-mode-改一个页面">练习 2：用 Plan Mode
+改一个页面</h3>
+<p>prompt：</p>
+<pre class="text"><code>请先只做探索和计划，不要改文件。
+我想优化这个页面的手机端阅读体验。
+请找出相关文件、当前布局问题、改动方案、风险和验证方法。</code></pre>
+<h3 id="练习-3让-agent-做一次代码审查">练习 3：让 agent
+做一次代码审查</h3>
+<p>prompt：</p>
+<pre class="text"><code>请站在 code review 角度看这次改动。
+优先找 bug、回归风险、遗漏测试和不符合项目规则的地方。
+不要先总结，先列问题。</code></pre>
+<h3 id="练习-4检查上下文污染">练习 4：检查上下文污染</h3>
+<p>做完一个任务后问：</p>
+<pre class="text"><code>当前会话里哪些上下文会影响下一个任务判断？
+哪些应该写入长期记忆，哪些应该清除？</code></pre>
+<h3 id="练习-5把一个硬规则改成-hook">练习 5：把一个硬规则改成 hook</h3>
+<p>例如：</p>
+<ul>
+<li>禁止提交 <code>.env</code>。</li>
+<li>每次编辑后自动格式化。</li>
+<li>每次生成 HTML 后检查文件存在和页面状态。</li>
+</ul>
+<p>先让 agent 写方案，再决定是否真正落地。</p>
+<h2 id="复习清单">12. 复习清单</h2>
+<p>学完这套课，你应该能回答：</p>
+<ul>
+<li>Claude Code 和普通 Claude Chat 最大差别是什么？</li>
+<li>agentic loop 的每一步分别做什么？</li>
+<li>为什么复杂任务先用 Plan Mode？</li>
+<li><code>CLAUDE.md</code> / <code>AGENTS.md</code>
+应该写什么，不应该写什么？</li>
+<li>什么时候 <code>/compact</code>，什么时候 <code>/clear</code>？</li>
+<li>MCP 为什么会占用 context？</li>
+<li>skill 和 MCP 的差异是什么？</li>
+<li>hook 适合解决什么问题？</li>
+<li>哪些规则应该写在 memory，哪些应该写成 hook？</li>
+</ul>
+<h2 id="后续学习建议">13. 后续学习建议</h2>
+<p>这套课很短，适合看两遍：</p>
+<p>第一遍看概念：</p>
+<ul>
+<li>agentic loop</li>
+<li>context</li>
+<li>tools</li>
+<li>permissions</li>
+<li>memory</li>
+<li>MCP</li>
+<li>hooks</li>
+</ul>
+<p>第二遍跟着做：</p>
+<ul>
+<li>新建一个测试项目。</li>
+<li>写一个项目记忆文件。</li>
+<li>用 Plan Mode 做一次小功能。</li>
+<li>让 agent 跑测试并修复问题。</li>
+<li>最后让它生成 commit message。</li>
+</ul>
+<p>真正掌握 Claude
+Code，不是记住每个命令，而是形成一个稳定工作方式：</p>
+<blockquote>
+<p>讲清目标，限制权限，先计划，再执行，用测试验证，把经验沉淀进记忆或
+hook。</p>
+</blockquote>
+    </article>
+  </main>
+
+
+  <!-- Reading progress + code copy + smooth scroll -->
+  <script>
+    (function () {
+      // Reading progress bar
+      var bar = document.getElementById('reading-progress');
+      if (bar) {
+        var update = function () {
+          var doc = document.documentElement;
+          var scrollTop = doc.scrollTop || document.body.scrollTop;
+          var height = doc.scrollHeight - doc.clientHeight;
+          var pct = height > 0 ? (scrollTop / height) * 100 : 0;
+          bar.style.width = pct + '%';
+        };
+        document.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+
+      // Code copy button (added on hover-capable devices)
+      var codeBlocks = document.querySelectorAll('pre > code');
+      codeBlocks.forEach(function (code) {
+        var pre = code.parentElement;
+        if (pre.querySelector('.copy-btn')) return;
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function () {
+          navigator.clipboard.writeText(code.innerText).then(function () {
+            btn.textContent = 'Copied';
+            setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+          }, function () {
+            btn.textContent = 'Failed';
+          });
+        });
+        pre.appendChild(btn);
+      });
+
+      // Smooth scroll for in-page anchors (TOC)
+      document.querySelectorAll('nav#TOC a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var target = document.querySelector(a.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, '', a.getAttribute('href'));
+          }
+        });
+      });
+
+      // Image click-to-expand (lightbox lite)
+      document.querySelectorAll('article img, figure img').forEach(function (img) {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function () {
+          var overlay = document.createElement('div');
+          overlay.className = 'img-lightbox';
+          var clone = document.createElement('img');
+          clone.src = img.src;
+          overlay.appendChild(clone);
+          overlay.addEventListener('click', function () {
+            overlay.remove();
+            document.body.style.overflow = '';
+          });
+          document.body.style.overflow = 'hidden';
+          document.body.appendChild(overlay);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
