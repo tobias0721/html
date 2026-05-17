@@ -1,0 +1,1745 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="md-html-reader">
+  <title>亚马逊广告优化 Skill 运行逻辑</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fbf7ef;
+      --ink: #26231f;
+      --muted: #746f66;
+      --line: #dfd5c7;
+      --soft: #f1e8da;
+      --sidebar: #f1eee8;
+      --accent: #a74d25;
+      --accent-2: #2f6b57;
+      --code-bg: #efe7dc;
+      --max: 820px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(167, 77, 37, .08) 0 1px, transparent 1px) 0 0 / 44px 44px,
+        var(--paper);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", system-ui, sans-serif;
+      line-height: 1.82;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      z-index: 10;
+    }
+
+    .page {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 42px 22px 72px;
+      overflow-x: hidden;
+    }
+
+    header, article, .toc {
+      max-width: 100%;
+      overflow-x: hidden;
+      overflow-wrap: anywhere;
+    }
+
+    header {
+      padding: 14px 0 28px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin: 0 0 14px;
+    }
+
+    h1, h2, h3 {
+      font-family: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", Georgia, serif;
+      letter-spacing: 0;
+      line-height: 1.22;
+      color: var(--ink);
+    }
+
+    h1 {
+      font-size: clamp(38px, 7vw, 64px);
+      margin: 0;
+      max-width: 100%;
+    }
+
+    h2 {
+      font-size: clamp(24px, 6vw, 38px);
+      margin: 58px 0 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    h2::before {
+      content: "§";
+      color: var(--accent);
+      font-family: Georgia, serif;
+      font-size: .75em;
+      margin-right: .45em;
+    }
+
+    h3 {
+      font-size: clamp(19px, 4.8vw, 25px);
+      margin: 34px 0 12px;
+    }
+
+    article > h1:first-child {
+      display: none;
+    }
+
+    p, li {
+      font-size: 17px;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      max-width: 100%;
+    }
+
+    p {
+      margin: 0 0 18px;
+    }
+
+    ul, ol {
+      padding-left: 1.25em;
+      margin: 0 0 22px;
+    }
+
+    li + li {
+      margin-top: 7px;
+    }
+
+    a {
+      color: var(--accent-2);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    code {
+      font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: .88em;
+      background: var(--code-bg);
+      border: 1px solid rgba(167, 77, 37, .16);
+      border-radius: 4px;
+      padding: .08em .32em;
+      white-space: normal;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 16px;
+      background: #24211d;
+      color: #f8f1e7;
+      border-radius: 6px;
+      line-height: 1.7;
+      margin: 24px 0;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      border: 0;
+      padding: 0;
+      white-space: pre;
+    }
+
+    blockquote {
+      margin: 26px 0;
+      padding: 6px 0 6px 22px;
+      border-left: 3px solid var(--accent);
+      color: #4c443b;
+      font-family: "Songti SC", "Noto Serif CJK SC", Georgia, serif;
+      font-size: 19px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      display: block;
+      overflow-x: auto;
+      white-space: normal;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 11px 10px;
+      text-align: left;
+      vertical-align: top;
+      min-width: 128px;
+    }
+
+    th {
+      color: var(--accent);
+      font-size: 13px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 44px 0;
+    }
+
+    .toc {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      max-height: 100vh;
+      margin: 0;
+      padding: 54px 18px 26px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+      z-index: 5;
+    }
+
+    .toc-title {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .toc li {
+      font-size: 13px;
+      line-height: 1.55;
+      margin-top: 5px;
+    }
+
+    .toc ol {
+      padding-left: 1.35em;
+      margin: 0;
+    }
+
+    .toc a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+    }
+
+    .copy-source {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      border: 1px solid var(--line);
+      background: rgba(251, 247, 239, .92);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 13px;
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+
+    .copy-source:active {
+      transform: translateY(1px);
+    }
+
+    @media (max-width: 1440px) {
+      .toc {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 34px 20px 84px;
+      }
+
+      h1 {
+        max-width: 100%;
+      }
+
+      p, li {
+        font-size: 16px;
+      }
+
+      table {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <main class="page">
+    <header>
+      <p class="eyebrow">Course Notes · YouTube</p>
+      <h1>亚马逊广告优化 Skill 运行逻辑</h1>
+    </header>
+    <nav class="toc" aria-label="目录">
+      <p class="toc-title">目录</p>
+      <ul>
+      <li><a href="#亚马逊广告优化-skill-运行逻辑"
+      id="toc-亚马逊广告优化-skill-运行逻辑">亚马逊广告优化 Skill
+      运行逻辑</a>
+      <ul>
+      <li><a href="#目标" id="toc-目标">目标</a></li>
+      <li><a href="#核心原则" id="toc-核心原则">核心原则</a></li>
+      <li><a href="#数据来源" id="toc-数据来源">数据来源</a>
+      <ul>
+      <li><a href="#sorftime-mcp" id="toc-sorftime-mcp">Sorftime
+      MCP</a></li>
+      <li><a href="#领星-api" id="toc-领星-api">领星 API</a></li>
+      <li><a href="#人工输入" id="toc-人工输入">人工输入</a></li>
+      </ul></li>
+      <li><a href="#强制输入条件"
+      id="toc-强制输入条件">强制输入条件</a></li>
+      <li><a href="#缺失数据时的停止规则"
+      id="toc-缺失数据时的停止规则">缺失数据时的停止规则</a></li>
+      <li><a href="#增强输入" id="toc-增强输入">增强输入</a></li>
+      <li><a href="#工作流总览" id="toc-工作流总览">工作流总览</a></li>
+      <li><a href="#step-0输入门禁" id="toc-step-0输入门禁">Step
+      0：输入门禁</a>
+      <ul>
+      <li><a href="#目标-1" id="toc-目标-1">目标</a></li>
+      <li><a href="#检查项" id="toc-检查项">检查项</a></li>
+      <li><a href="#输出" id="toc-输出">输出</a></li>
+      </ul></li>
+      <li><a href="#step-1产品-dna-与-cosmo-结构化理解"
+      id="toc-step-1产品-dna-与-cosmo-结构化理解">Step 1：产品 DNA 与
+      COSMO 结构化理解</a>
+      <ul>
+      <li><a href="#目标-2" id="toc-目标-2">目标</a></li>
+      <li><a href="#输入" id="toc-输入">输入</a></li>
+      <li><a href="#分析框架" id="toc-分析框架">分析框架</a></li>
+      <li><a href="#额外诊断" id="toc-额外诊断">额外诊断</a></li>
+      <li><a href="#输出-1" id="toc-输出-1">输出</a></li>
+      </ul></li>
+      <li><a href="#step-2关键词清洗与分类"
+      id="toc-step-2关键词清洗与分类">Step 2：关键词清洗与分类</a>
+      <ul>
+      <li><a href="#目标-3" id="toc-目标-3">目标</a></li>
+      <li><a href="#输入-1" id="toc-输入-1">输入</a></li>
+      <li><a href="#清洗规则" id="toc-清洗规则">清洗规则</a></li>
+      <li><a href="#分类框架" id="toc-分类框架">分类框架</a></li>
+      <li><a href="#输出-2" id="toc-输出-2">输出</a></li>
+      </ul></li>
+      <li><a href="#step-3生成-stag-广告架构"
+      id="toc-step-3生成-stag-广告架构">Step 3：生成 STAG 广告架构</a>
+      <ul>
+      <li><a href="#目标-4" id="toc-目标-4">目标</a></li>
+      <li><a href="#约束" id="toc-约束">约束</a></li>
+      <li><a href="#广告类型策略"
+      id="toc-广告类型策略">广告类型策略</a></li>
+      <li><a href="#输出表字段" id="toc-输出表字段">输出表字段</a></li>
+      <li><a href="#输出-3" id="toc-输出-3">输出</a></li>
+      </ul></li>
+      <li><a href="#step-4历史广告数据拉齐"
+      id="toc-step-4历史广告数据拉齐">Step 4：历史广告数据拉齐</a>
+      <ul>
+      <li><a href="#目标-5" id="toc-目标-5">目标</a></li>
+      <li><a href="#输入-2" id="toc-输入-2">输入</a></li>
+      <li><a href="#拉取逻辑" id="toc-拉取逻辑">拉取逻辑</a></li>
+      <li><a href="#统一指标" id="toc-统一指标">统一指标</a></li>
+      <li><a href="#输出-4" id="toc-输出-4">输出</a></li>
+      </ul></li>
+      <li><a href="#step-5广告架构与历史表现交叉诊断"
+      id="toc-step-5广告架构与历史表现交叉诊断">Step
+      5：广告架构与历史表现交叉诊断</a>
+      <ul>
+      <li><a href="#目标-6" id="toc-目标-6">目标</a></li>
+      <li><a href="#判断维度" id="toc-判断维度">判断维度</a></li>
+      <li><a href="#输出标签" id="toc-输出标签">输出标签</a></li>
+      </ul></li>
+      <li><a href="#step-6广告优化建议输出"
+      id="toc-step-6广告优化建议输出">Step 6：广告优化建议输出</a>
+      <ul>
+      <li><a href="#目标-7" id="toc-目标-7">目标</a></li>
+      <li><a href="#输出结构" id="toc-输出结构">输出结构</a></li>
+      <li><a href="#优化动作表字段"
+      id="toc-优化动作表字段">优化动作表字段</a></li>
+      </ul></li>
+      <li><a href="#运行边界" id="toc-运行边界">运行边界</a>
+      <ul>
+      <li><a href="#当前阶段不做"
+      id="toc-当前阶段不做">当前阶段不做</a></li>
+      <li><a href="#后续-skill-可以做" id="toc-后续-skill-可以做">后续
+      Skill 可以做</a></li>
+      </ul></li>
+      <li><a href="#推荐文件输出目录"
+      id="toc-推荐文件输出目录">推荐文件输出目录</a></li>
+      <li><a href="#skill-完成状态" id="toc-skill-完成状态">Skill
+      完成状态</a></li>
+      <li><a href="#后续转成-skill-时的建议结构"
+      id="toc-后续转成-skill-时的建议结构">后续转成 Skill
+      时的建议结构</a></li>
+      <li><a href="#待确认问题" id="toc-待确认问题">待确认问题</a></li>
+      </ul></li>
+      </ul>
+    </nav>
+    <article>
+<h1 id="亚马逊广告优化-skill-运行逻辑">亚马逊广告优化 Skill
+运行逻辑</h1>
+<p>创建日期：2026-05-17</p>
+<h2 id="目标">目标</h2>
+<p>设计一个后续可实现为 Codex Skill
+的广告优化流程，用于基于产品事实、Sorftime
+自然排名数据、领星历史广告投放数据，生成可执行的 Amazon PPC
+广告架构和优化建议。</p>
+<p>当前阶段只整理运行逻辑，不创建
+Skill，不调用领星写入接口，不直接修改广告。</p>
+<h2 id="核心原则">核心原则</h2>
+<p>这个 Skill 的目标不是单纯“生成广告结构”，而是完成一条证据链：</p>
+<pre class="text"><code>产品理解
+  -&gt; 关键词语义与意图分类
+  -&gt; STAG 广告架构
+  -&gt; 历史投放表现对照
+  -&gt; 广告优化建议</code></pre>
+<p>每一步都必须能说明：</p>
+<pre class="text"><code>使用了什么数据
+如何处理
+输出了什么中间结果
+这些结果支撑什么广告判断</code></pre>
+<h2 id="数据来源">数据来源</h2>
+<h3 id="sorftime-mcp">Sorftime MCP</h3>
+<p>用于获取市场与自然流量证据。</p>
+<p>可用数据：</p>
+<table>
+<thead>
+<tr>
+<th>数据</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品详情</td>
+<td>获取标题、价格、类目、评分、评论数、月销量、主图等</td>
+</tr>
+<tr>
+<td>产品标题和五点描述</td>
+<td>理解产品卖点、功能、属性和使用场景</td>
+</tr>
+<tr>
+<td>产品自然排名关键词</td>
+<td>判断产品已经被哪些关键词自然识别</td>
+</tr>
+<tr>
+<td>关键词搜索量、排名、CPC 趋势</td>
+<td>判断关键词机会和竞争强度</td>
+</tr>
+<tr>
+<td>竞品流量词</td>
+<td>补充关键词池和对标对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="领星-api">领星 API</h3>
+<p>用于获取历史广告表现。</p>
+<p>可用数据：</p>
+<table>
+<thead>
+<tr>
+<th>数据</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>广告账号 / profile_id</td>
+<td>定位广告账户</td>
+</tr>
+<tr>
+<td>Portfolio 广告组合</td>
+<td>找到指定广告组合下的广告活动</td>
+</tr>
+<tr>
+<td>SP Campaign / Ad Group / Keyword / Target</td>
+<td>还原 SP 投放结构</td>
+</tr>
+<tr>
+<td>SB Campaign / Ad Group / Target / Creative</td>
+<td>还原 SB 投放结构</td>
+</tr>
+<tr>
+<td>SP / SB 搜索词报告</td>
+<td>判断真实搜索词表现</td>
+</tr>
+<tr>
+<td>SP / SB 关键词或投放报告</td>
+<td>判断关键词和 ASIN 投放效果</td>
+</tr>
+<tr>
+<td>SP / SB 已购买商品报告</td>
+<td>判断广告实际带动购买的 ASIN</td>
+</tr>
+<tr>
+<td>小时数据</td>
+<td>做出单时段和预算分配判断</td>
+</tr>
+</tbody>
+</table>
+<h3 id="人工输入">人工输入</h3>
+<p>用于补足自动数据无法判断的业务边界。</p>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标 ASIN 或产品链接</td>
+<td>定位分析对象</td>
+</tr>
+<tr>
+<td>广告组合名称</td>
+<td>定位需要分析的 Portfolio</td>
+</tr>
+<tr>
+<td>站点 / 店铺</td>
+<td>默认 US，但必须确认</td>
+</tr>
+<tr>
+<td>目标受众</td>
+<td>判断关键词和广告语境是否匹配</td>
+</tr>
+<tr>
+<td>业务目标</td>
+<td>拉新、控 ACOS、清库存、推新品、抢竞品等</td>
+</tr>
+<tr>
+<td>禁投边界</td>
+<td>不相关属性、不能承诺的卖点、不能投的竞品或品牌词</td>
+</tr>
+</tbody>
+</table>
+<h2 id="强制输入条件">强制输入条件</h2>
+<p>以下数据缺失时，Skill 必须停止，不生成广告优化结论。</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>必需输入</th>
+<th>为什么必须有</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标 ASIN 或产品链接</td>
+<td>没有产品对象，无法做产品 DNA 分析</td>
+</tr>
+<tr>
+<td>站点</td>
+<td>不同站点关键词、广告账号、货币和竞争环境不同</td>
+</tr>
+<tr>
+<td>广告组合名称或明确的 Campaign 列表</td>
+<td>没有广告范围，无法分析历史投放</td>
+</tr>
+<tr>
+<td>最近 3 个月广告报告数据</td>
+<td>没有历史表现，无法做优化建议</td>
+</tr>
+<tr>
+<td>Sorftime 自然排名关键词数据</td>
+<td>没有自然流量基准，无法判断广告与自然承接关系</td>
+</tr>
+<tr>
+<td>产品标题、五点描述或产品详情</td>
+<td>没有产品事实，关键词分类会变成泛化分类</td>
+</tr>
+</tbody>
+</table>
+<h2 id="缺失数据时的停止规则">缺失数据时的停止规则</h2>
+<p>Skill 必须使用明确状态码结束，而不是硬生成结果。</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>状态码</th>
+<th>触发条件</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BLOCKED_NO_PRODUCT</code></td>
+<td>缺少目标 ASIN / 链接</td>
+<td>返回缺失项清单</td>
+</tr>
+<tr>
+<td><code>BLOCKED_NO_AD_SCOPE</code></td>
+<td>缺少广告组合名称或 Campaign 范围</td>
+<td>要求补广告组合或活动列表</td>
+</tr>
+<tr>
+<td><code>BLOCKED_NO_HISTORY_AD_DATA</code></td>
+<td>没有最近 3 个月广告报告</td>
+<td>不生成优化建议，只输出待补数据</td>
+</tr>
+<tr>
+<td><code>BLOCKED_NO_ORGANIC_RANKING</code></td>
+<td>没有自然排名关键词</td>
+<td>不生成广告架构，只输出待补数据</td>
+</tr>
+<tr>
+<td><code>BLOCKED_NO_PRODUCT_DNA</code></td>
+<td>缺少标题、五点、详情等产品事实</td>
+<td>不做关键词过滤</td>
+</tr>
+<tr>
+<td><code>NEEDS_REVIEW_DATA</code></td>
+<td>缺少评论 VOC，但其他数据齐全</td>
+<td>允许继续，但标记 VOC 可信度较低</td>
+</tr>
+</tbody>
+</table>
+<p>其中，评论 VOC
+是强增强输入。缺少评论时可以继续，但必须在结果中标记：</p>
+<pre class="text"><code>VOC evidence weak: review data not provided.</code></pre>
+<h2 id="增强输入">增强输入</h2>
+<p>这些数据不是启动必需项，但会显著提高分析质量。</p>
+<table>
+<thead>
+<tr>
+<th>增强输入</th>
+<th>增强效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Review 文件</td>
+<td>提炼用户喜欢点、差评阻断点、误解点</td>
+</tr>
+<tr>
+<td>Search Term Report 原始文件</td>
+<td>补全领星 API 缺失字段或复核口径</td>
+</tr>
+<tr>
+<td>当前广告结构导出</td>
+<td>判断是否需要重组 Campaign / Ad Group</td>
+</tr>
+<tr>
+<td>当前竞价和预算</td>
+<td>输出具体 bid / budget 调整建议</td>
+</tr>
+<tr>
+<td>Listing 文案</td>
+<td>判断广告词与 Listing 承接是否一致</td>
+</tr>
+<tr>
+<td>竞品 ASIN 列表</td>
+<td>判断 ASIN 投放和防守/进攻策略</td>
+</tr>
+</tbody>
+</table>
+<h2 id="工作流总览">工作流总览</h2>
+<pre class="text"><code>Step 0: 输入门禁
+Step 1: 产品 DNA 与 COSMO 结构化理解
+Step 2: 关键词清洗与多维分类
+Step 3: 生成 STAG 广告架构
+Step 4: 拉齐历史广告表现
+Step 5: 广告架构 vs 历史数据交叉诊断
+Step 6: 输出优化建议与执行清单</code></pre>
+<h2 id="step-0输入门禁">Step 0：输入门禁</h2>
+<h3 id="目标-1">目标</h3>
+<p>确认是否具备运行条件。</p>
+<h3 id="检查项">检查项</h3>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>通过条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品对象</td>
+<td>有 ASIN 或产品链接</td>
+</tr>
+<tr>
+<td>市场范围</td>
+<td>有站点，默认 US 也要显式写入</td>
+</tr>
+<tr>
+<td>广告范围</td>
+<td>有 Portfolio 名称或 Campaign 列表</td>
+</tr>
+<tr>
+<td>时间范围</td>
+<td>默认最近 3 个月，允许用户指定</td>
+</tr>
+<tr>
+<td>自然排名数据</td>
+<td>Sorftime 能返回产品关键词自然排名</td>
+</tr>
+<tr>
+<td>历史广告数据</td>
+<td>领星能返回 SP / SB 报表</td>
+</tr>
+<tr>
+<td>产品信息</td>
+<td>有标题、五点描述或产品详情</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出">输出</h3>
+<table>
+<thead>
+<tr>
+<th>输出</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_gate_result</code></td>
+<td><code>PASS</code> / <code>BLOCKED</code> /
+<code>NEEDS_CONTEXT</code></td>
+</tr>
+<tr>
+<td><code>missing_inputs</code></td>
+<td>缺失数据清单</td>
+</tr>
+<tr>
+<td><code>data_plan</code></td>
+<td>后续需要拉取哪些数据</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-1产品-dna-与-cosmo-结构化理解">Step 1：产品 DNA 与 COSMO
+结构化理解</h2>
+<h3 id="目标-2">目标</h3>
+<p>深入理解产品，避免广告结构只按词面机械分类。</p>
+<h3 id="输入">输入</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品标题、五点描述、类目、价格、评分、评论数</td>
+<td>Sorftime</td>
+</tr>
+<tr>
+<td>自然排名关键词</td>
+<td>Sorftime</td>
+</tr>
+<tr>
+<td>Review 正评 / 差评</td>
+<td>Sorftime 或上传文件</td>
+</tr>
+<tr>
+<td>目标受众和业务目标</td>
+<td>用户输入</td>
+</tr>
+</tbody>
+</table>
+<h3 id="分析框架">分析框架</h3>
+<p>借鉴 COSMO 结构化字段，输出 15 个维度：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>is_a</code></td>
+<td>产品是什么类型</td>
+</tr>
+<tr>
+<td><code>used_as</code></td>
+<td>可以替代什么或等效什么</td>
+</tr>
+<tr>
+<td><code>used_on</code></td>
+<td>作用对象或使用对象</td>
+</tr>
+<tr>
+<td><code>used_in_location</code></td>
+<td>使用地点</td>
+</tr>
+<tr>
+<td><code>used_for_func</code></td>
+<td>具体功能</td>
+</tr>
+<tr>
+<td><code>capable_of</code></td>
+<td>扩展能力</td>
+</tr>
+<tr>
+<td><code>used_for_event</code></td>
+<td>使用场景、节日、特殊情境</td>
+</tr>
+<tr>
+<td><code>used_to</code></td>
+<td>用户想达成的目标</td>
+</tr>
+<tr>
+<td><code>used_with</code></td>
+<td>搭配使用产品</td>
+</tr>
+<tr>
+<td><code>used_by</code></td>
+<td>谁使用</td>
+</tr>
+<tr>
+<td><code>xInterest_in</code></td>
+<td>用户兴趣偏好</td>
+</tr>
+<tr>
+<td><code>xIs_a</code></td>
+<td>用户身份</td>
+</tr>
+<tr>
+<td><code>xWant</code></td>
+<td>用户愿望和动机</td>
+</tr>
+<tr>
+<td><code>used_for_audience</code></td>
+<td>目标受众</td>
+</tr>
+<tr>
+<td><code>used_in_body</code></td>
+<td>身体部位或动作关联</td>
+</tr>
+</tbody>
+</table>
+<h3 id="额外诊断">额外诊断</h3>
+<table>
+<thead>
+<tr>
+<th>诊断项</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top 3-5 Selling Points</td>
+<td>标题、五点、评论、自然词</td>
+</tr>
+<tr>
+<td>Top 3 Deal Breakers</td>
+<td>差评、低相关搜索词、产品不具备属性</td>
+</tr>
+<tr>
+<td>Negative Attribute List</td>
+<td>产品没有的材质、尺寸、人群、场景、功能</td>
+</tr>
+<tr>
+<td>Product DNA Summary</td>
+<td>可用于后续关键词过滤和分组</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出-1">输出</h3>
+<table>
+<thead>
+<tr>
+<th>输出物</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>product_dna_table.md</code></td>
+<td>产品结构化理解</td>
+</tr>
+<tr>
+<td><code>selling_points.json</code></td>
+<td>后续广告卖点映射</td>
+</tr>
+<tr>
+<td><code>deal_breakers.json</code></td>
+<td>后续关键词剔除和否定词</td>
+</tr>
+<tr>
+<td><code>negative_attributes.csv</code></td>
+<td>否词和过滤规则</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-2关键词清洗与分类">Step 2：关键词清洗与分类</h2>
+<h3 id="目标-3">目标</h3>
+<p>把自然排名词、历史广告词、搜索词、ASIN Target
+统一清洗成可投放的关键词资产。</p>
+<h3 id="输入-1">输入</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品自然排名关键词</td>
+<td>Sorftime</td>
+</tr>
+<tr>
+<td>历史广告关键词</td>
+<td>领星 SP / SB 报告</td>
+</tr>
+<tr>
+<td>历史搜索词</td>
+<td>领星 SP / SB Search Term 报告</td>
+</tr>
+<tr>
+<td>历史 ASIN Target</td>
+<td>领星 Target 报告</td>
+</tr>
+<tr>
+<td>Deal Breakers / Negative Attributes</td>
+<td>Step 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="清洗规则">清洗规则</h3>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>去重</td>
+<td>统一大小写、单复数、标点、空格</td>
+</tr>
+<tr>
+<td>剔除不相关属性</td>
+<td>如产品不是 glass，就剔除 glass 相关词</td>
+</tr>
+<tr>
+<td>剔除误导词</td>
+<td>包含产品无法满足的功能或人群</td>
+</tr>
+<tr>
+<td>保留高意图长尾词</td>
+<td>即使搜索量小，也进入 Conversion 层</td>
+</tr>
+<tr>
+<td>标记自然排名状态</td>
+<td>区分已有自然排名、无自然排名、自然排名弱</td>
+</tr>
+<tr>
+<td>标记历史投放状态</td>
+<td>区分已投放、未投放、花费高未转化</td>
+</tr>
+</tbody>
+</table>
+<h3 id="分类框架">分类框架</h3>
+<p>同时输出两套分类，后续合并使用。</p>
+<h4 id="funnel-分类">1. Funnel 分类</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>定义</th>
+<th>典型词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Awareness</td>
+<td>泛词、大词、场景词</td>
+<td>water bottle, travel cup</td>
+</tr>
+<tr>
+<td>Consideration</td>
+<td>品类词、功能词、竞品对比词</td>
+<td>insulated water bottle, bottle with straw</td>
+</tr>
+<tr>
+<td>Conversion</td>
+<td>长尾词、精准词、品牌词、高意图词</td>
+<td>32 oz insulated bottle leakproof</td>
+</tr>
+</tbody>
+</table>
+<h4 id="root-attribute-分类">2. Root Attribute 分类</h4>
+<p>按产品属性词根聚类：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>材质</td>
+<td>stainless steel, metal</td>
+</tr>
+<tr>
+<td>容量</td>
+<td>20oz, 32oz, 40oz</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>insulated, leakproof, misting</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>gym, hiking, soccer</td>
+</tr>
+<tr>
+<td>人群</td>
+<td>kids, women, athletes</td>
+</tr>
+<tr>
+<td>搭配对象</td>
+<td>phone holder, straw, lid</td>
+</tr>
+<tr>
+<td>竞品 / ASIN</td>
+<td>competitor ASIN, brand terms</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出-2">输出</h3>
+<table>
+<thead>
+<tr>
+<th>输出物</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keyword_cleaned_master.csv</code></td>
+<td>清洗后的关键词主表</td>
+</tr>
+<tr>
+<td><code>keyword_funnel_table.md</code></td>
+<td>漏斗层级分类</td>
+</tr>
+<tr>
+<td><code>keyword_root_attribute_table.md</code></td>
+<td>属性词根聚类</td>
+</tr>
+<tr>
+<td><code>excluded_keywords.csv</code></td>
+<td>剔除词和原因</td>
+</tr>
+<tr>
+<td><code>negative_keyword_candidates.csv</code></td>
+<td>否定关键词候选</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-3生成-stag-广告架构">Step 3：生成 STAG 广告架构</h2>
+<h3 id="目标-4">目标</h3>
+<p>基于产品 DNA 和关键词分类，生成精细化广告结构。</p>
+<h3 id="约束">约束</h3>
+<table>
+<thead>
+<tr>
+<th>约束</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Campaign / Ad Group</td>
+<td>1 Campaign = 1 Ad Group</td>
+</tr>
+<tr>
+<td>单组关键词数量</td>
+<td>每组最多 25 个关键词</td>
+</tr>
+<tr>
+<td>高相关性</td>
+<td>泛词不能和具体属性长尾词混在同一组</td>
+</tr>
+<tr>
+<td>拆分规则</td>
+<td>超过 25 个词拆成 Part 1 / Part 2</td>
+</tr>
+<tr>
+<td>命名规范</td>
+<td><code>SP - [属性词] - [Part X] - [Match Type]</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="广告类型策略">广告类型策略</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>推荐广告类型</th>
+<th>策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Awareness</td>
+<td>SP Broad / SB Video / SB Category</td>
+<td>低竞价探索，控预算</td>
+</tr>
+<tr>
+<td>Consideration</td>
+<td>SP Phrase / SP Exact / SB Keyword</td>
+<td>中竞价，筛选有效词</td>
+</tr>
+<tr>
+<td>Conversion</td>
+<td>SP Exact / SP Product Targeting / SB Brand Defense</td>
+<td>高相关词高优先级</td>
+</tr>
+<tr>
+<td>ASIN Target</td>
+<td>SP Product Targeting / SD Product Targeting</td>
+<td>按竞品强弱分组</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出表字段">输出表字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Campaign Type</code></td>
+<td>SP / SB / SD</td>
+</tr>
+<tr>
+<td><code>Campaign Name</code></td>
+<td>标准命名</td>
+</tr>
+<tr>
+<td><code>Ad Group Name</code></td>
+<td>通常与 Campaign 对应</td>
+</tr>
+<tr>
+<td><code>Funnel Level</code></td>
+<td>Awareness / Consideration / Conversion</td>
+</tr>
+<tr>
+<td><code>Root Attribute</code></td>
+<td>该组词根</td>
+</tr>
+<tr>
+<td><code>Keywords or ASINs</code></td>
+<td>样例词或 ASIN</td>
+</tr>
+<tr>
+<td><code>Keyword Count</code></td>
+<td>数量</td>
+</tr>
+<tr>
+<td><code>Match Type</code></td>
+<td>Broad / Phrase / Exact / Product Targeting</td>
+</tr>
+<tr>
+<td><code>Bid Strategy</code></td>
+<td>High / Mid / Low</td>
+</tr>
+<tr>
+<td><code>Reason</code></td>
+<td>为什么这样分组</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出-3">输出</h3>
+<table>
+<thead>
+<tr>
+<th>输出物</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ad_architecture_stag.md</code></td>
+<td>广告结构主表</td>
+</tr>
+<tr>
+<td><code>campaign_build_plan.csv</code></td>
+<td>可转广告导入模板的数据基础</td>
+</tr>
+<tr>
+<td><code>negative_phrase_list.csv</code></td>
+<td>否定词建议</td>
+</tr>
+<tr>
+<td><code>campaign_naming_map.csv</code></td>
+<td>命名映射</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-4历史广告数据拉齐">Step 4：历史广告数据拉齐</h2>
+<h3 id="目标-5">目标</h3>
+<p>把过去 3 个月真实投放表现整理到同一口径。</p>
+<h3 id="输入-2">输入</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Portfolio 名称</td>
+<td>用户输入</td>
+</tr>
+<tr>
+<td>Campaign 列表</td>
+<td>领星广告活动接口</td>
+</tr>
+<tr>
+<td>SP / SB 关键词报表</td>
+<td>领星</td>
+</tr>
+<tr>
+<td>SP / SB 搜索词报表</td>
+<td>领星</td>
+</tr>
+<tr>
+<td>SP / SB ASIN / Target 报表</td>
+<td>领星</td>
+</tr>
+<tr>
+<td>已购买 ASIN 报表</td>
+<td>领星</td>
+</tr>
+</tbody>
+</table>
+<h3 id="拉取逻辑">拉取逻辑</h3>
+<ol type="1">
+<li>通过广告账号接口获取 <code>profile_id</code>。</li>
+<li>通过 Portfolio 名称匹配 <code>portfolio_id</code>。</li>
+<li>查询 Portfolio 下的 SP / SB Campaign。</li>
+<li>逐日循环最近 3 个月 <code>report_date</code>。</li>
+<li>分别拉取关键词、搜索词、Target、购买 ASIN 报表。</li>
+<li>按 Campaign / Ad Group / Keyword / Search Term / Target 聚合。</li>
+</ol>
+<h3 id="统一指标">统一指标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>impressions</code></td>
+<td>曝光</td>
+</tr>
+<tr>
+<td><code>clicks</code></td>
+<td>点击</td>
+</tr>
+<tr>
+<td><code>cost</code></td>
+<td>花费</td>
+</tr>
+<tr>
+<td><code>sales</code></td>
+<td>广告销售额</td>
+</tr>
+<tr>
+<td><code>orders</code></td>
+<td>订单</td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td>销量</td>
+</tr>
+<tr>
+<td><code>ctr</code></td>
+<td>点击率</td>
+</tr>
+<tr>
+<td><code>cpc</code></td>
+<td>平均点击成本</td>
+</tr>
+<tr>
+<td><code>cvr</code></td>
+<td>转化率</td>
+</tr>
+<tr>
+<td><code>acos</code></td>
+<td>广告成本销售比</td>
+</tr>
+<tr>
+<td><code>roas</code></td>
+<td>广告投入产出比</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出-4">输出</h3>
+<table>
+<thead>
+<tr>
+<th>输出物</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ad_history_raw/</code></td>
+<td>原始日维度 JSON / CSV</td>
+</tr>
+<tr>
+<td><code>ad_history_normalized.csv</code></td>
+<td>标准化后的广告表现主表</td>
+</tr>
+<tr>
+<td><code>ad_history_by_keyword.csv</code></td>
+<td>关键词聚合</td>
+</tr>
+<tr>
+<td><code>ad_history_by_search_term.csv</code></td>
+<td>搜索词聚合</td>
+</tr>
+<tr>
+<td><code>ad_history_by_asin_target.csv</code></td>
+<td>ASIN Target 聚合</td>
+</tr>
+<tr>
+<td><code>ad_history_by_campaign.csv</code></td>
+<td>Campaign 聚合</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-5广告架构与历史表现交叉诊断">Step
+5：广告架构与历史表现交叉诊断</h2>
+<h3 id="目标-6">目标</h3>
+<p>把 Step 3 的理想广告结构和 Step 4
+的真实历史表现对照，判断哪些该保留、重组、加预算、降竞价、暂停或否定。</p>
+<h3 id="判断维度">判断维度</h3>
+<table>
+<thead>
+<tr>
+<th>诊断项</th>
+<th>判断逻辑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高自然排名 + 高广告花费</td>
+<td>可能可以降竞价或控制预算</td>
+</tr>
+<tr>
+<td>无自然排名 + 高转化</td>
+<td>适合继续广告拉排名</td>
+</tr>
+<tr>
+<td>高点击无转化</td>
+<td>检查是否不相关、Listing 承接弱、价格问题</td>
+</tr>
+<tr>
+<td>高转化低曝光</td>
+<td>适合加预算、提高竞价、拆 Exact</td>
+</tr>
+<tr>
+<td>搜索词转化好但未独立投放</td>
+<td>提取为 Exact Campaign</td>
+</tr>
+<tr>
+<td>ASIN Target 转化好</td>
+<td>拆为单独 ASIN Target 组</td>
+</tr>
+<tr>
+<td>ASIN Target 花费高无单</td>
+<td>降竞价或否定</td>
+</tr>
+<tr>
+<td>SB 表现弱但 SP 表现强</td>
+<td>优先 SP 收敛，SB 用于品牌或视频辅助</td>
+</tr>
+<tr>
+<td>广泛词花费高</td>
+<td>转为低预算探索或暂停</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输出标签">输出标签</h3>
+<table>
+<thead>
+<tr>
+<th>标签</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Scale</code></td>
+<td>加预算 / 提竞价</td>
+</tr>
+<tr>
+<td><code>Harvest</code></td>
+<td>从搜索词提取为精准投放</td>
+</tr>
+<tr>
+<td><code>Defend</code></td>
+<td>品牌词或核心词防守</td>
+</tr>
+<tr>
+<td><code>Reduce Bid</code></td>
+<td>降竞价</td>
+</tr>
+<tr>
+<td><code>Pause</code></td>
+<td>暂停</td>
+</tr>
+<tr>
+<td><code>Negative</code></td>
+<td>加否定</td>
+</tr>
+<tr>
+<td><code>Restructure</code></td>
+<td>重组 Campaign / Ad Group</td>
+</tr>
+<tr>
+<td><code>Watch</code></td>
+<td>数据不足，继续观察</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-6广告优化建议输出">Step 6：广告优化建议输出</h2>
+<h3 id="目标-7">目标</h3>
+<p>输出给运营可执行的优化清单，而不是只给分析结论。</p>
+<h3 id="输出结构">输出结构</h3>
+<table>
+<thead>
+<tr>
+<th>输出模块</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总结</td>
+<td>Portfolio 过去 3 个月表现概览</td>
+</tr>
+<tr>
+<td>产品 DNA</td>
+<td>产品定位、核心卖点、Deal Breakers</td>
+</tr>
+<tr>
+<td>关键词资产</td>
+<td>Funnel 分类 + Root Attribute 分类</td>
+</tr>
+<tr>
+<td>新广告架构</td>
+<td>STAG Campaign / Ad Group 表</td>
+</tr>
+<tr>
+<td>历史表现诊断</td>
+<td>关键词、搜索词、ASIN Target 诊断</td>
+</tr>
+<tr>
+<td>优化动作清单</td>
+<td>具体到 Campaign / Keyword / ASIN 的动作</td>
+</tr>
+<tr>
+<td>否定词建议</td>
+<td>Phrase / Exact 否定</td>
+</tr>
+<tr>
+<td>风险与待确认</td>
+<td>数据不足、口径不明、需要人工确认项</td>
+</tr>
+</tbody>
+</table>
+<h3 id="优化动作表字段">优化动作表字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Action</code></td>
+<td>Scale / Pause / Negative / Harvest / Restructure</td>
+</tr>
+<tr>
+<td><code>Object Type</code></td>
+<td>Campaign / Keyword / Search Term / ASIN Target</td>
+</tr>
+<tr>
+<td><code>Object Name</code></td>
+<td>操作对象</td>
+</tr>
+<tr>
+<td><code>Current Evidence</code></td>
+<td>历史数据证据</td>
+</tr>
+<tr>
+<td><code>Organic Evidence</code></td>
+<td>自然排名证据</td>
+</tr>
+<tr>
+<td><code>Recommended Change</code></td>
+<td>具体建议</td>
+</tr>
+<tr>
+<td><code>Expected Impact</code></td>
+<td>预期影响</td>
+</tr>
+<tr>
+<td><code>Risk</code></td>
+<td>风险</td>
+</tr>
+<tr>
+<td><code>Priority</code></td>
+<td>High / Mid / Low</td>
+</tr>
+</tbody>
+</table>
+<h2 id="运行边界">运行边界</h2>
+<h3 id="当前阶段不做">当前阶段不做</h3>
+<table>
+<thead>
+<tr>
+<th>不做事项</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不直接改广告后台</td>
+<td>避免误操作</td>
+</tr>
+<tr>
+<td>不调用写入接口</td>
+<td>当前只做分析和建议</td>
+</tr>
+<tr>
+<td>不自动上传广告 CSV</td>
+<td>需要人工确认</td>
+</tr>
+<tr>
+<td>不在缺数据时硬生成完整结论</td>
+<td>避免伪分析</td>
+</tr>
+<tr>
+<td>不混用不同站点数据</td>
+<td>站点关键词和广告表现不可直接合并</td>
+</tr>
+</tbody>
+</table>
+<h3 id="后续-skill-可以做">后续 Skill 可以做</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自动拉 Sorftime 数据</td>
+<td>需要 ASIN / 站点</td>
+</tr>
+<tr>
+<td>自动拉领星广告数据</td>
+<td>需要 Portfolio / sid / profile_id / 时间范围</td>
+</tr>
+<tr>
+<td>自动生成广告架构</td>
+<td>需要产品 DNA + 关键词主表</td>
+</tr>
+<tr>
+<td>自动输出优化建议</td>
+<td>需要历史广告数据</td>
+</tr>
+<tr>
+<td>自动生成广告导入 CSV</td>
+<td>需要人工确认结构</td>
+</tr>
+</tbody>
+</table>
+<h2 id="推荐文件输出目录">推荐文件输出目录</h2>
+<p>未来 Skill 每次运行应生成独立 run folder。</p>
+<pre class="text"><code>outputs/
+  amazon-ad-optimizer/
+    YYYY-MM-DD_[product-or-portfolio]/
+      report/
+        01_product_dna.md
+        02_keyword_classification.md
+        03_ad_architecture.md
+        04_history_diagnosis.md
+        05_optimization_actions.md
+      evidence/
+        keyword_cleaned_master.csv
+        negative_keyword_candidates.csv
+        ad_history_normalized.csv
+        action_plan.csv
+      raw_data/
+        sorftime_product_detail.json
+        sorftime_organic_keywords.json
+        lingxing_ad_reports/</code></pre>
+<h2 id="skill-完成状态">Skill 完成状态</h2>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DONE</code></td>
+<td>输入完整，完成所有分析</td>
+</tr>
+<tr>
+<td><code>DONE_WITH_CONCERNS</code></td>
+<td>完成分析，但存在数据缺口或口径风险</td>
+</tr>
+<tr>
+<td><code>BLOCKED</code></td>
+<td>缺少强制输入，不运行</td>
+</tr>
+<tr>
+<td><code>NEEDS_CONTEXT</code></td>
+<td>需要用户补充业务目标或边界</td>
+</tr>
+</tbody>
+</table>
+<h2 id="后续转成-skill-时的建议结构">后续转成 Skill 时的建议结构</h2>
+<pre class="text"><code>amazon-ad-optimizer/
+  SKILL.md
+  references/
+    data_contract.md
+    workflow.md
+    output_schema.md
+    prompt_patterns.md
+  scripts/
+    validate_inputs.py
+    normalize_keywords.py
+    aggregate_ad_history.py</code></pre>
+<p><code>SKILL.md</code>
+应保持简短，只写触发条件、强制门禁、核心流程和输出要求。详细提示词、字段解释、报表口径放到
+<code>references/</code>。</p>
+<h2 id="待确认问题">待确认问题</h2>
+<p>正式创建 Skill 前，需要确认以下规则：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>问题</th>
+<th>需要确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>评论 VOC 是否强制</td>
+<td>当前建议为增强输入，不强制</td>
+</tr>
+<tr>
+<td>默认时间范围</td>
+<td>当前建议最近 3 个月</td>
+</tr>
+<tr>
+<td>只分析 Portfolio，还是也支持单 Campaign</td>
+<td>当前建议两者都支持，但优先 Portfolio</td>
+</tr>
+<tr>
+<td>是否输出广告导入 CSV</td>
+<td>当前建议先只输出结构，不直接导入</td>
+</tr>
+<tr>
+<td>是否包含 SD</td>
+<td>当前用户重点是 SP / SB，SD 可作为二期</td>
+</tr>
+<tr>
+<td>预算建议是否给具体金额</td>
+<td>需要拿到当前预算和业务目标后再给</td>
+</tr>
+<tr>
+<td>Bid 建议是否给具体数值</td>
+<td>需要历史 CPC / CVR / ACOS 后再给</td>
+</tr>
+</tbody>
+</table>
+    </article>
+  </main>
+  <button class="copy-source" type="button" id="copyText">复制正文</button>
+  <script>
+    const bar = document.getElementById('progress');
+    const updateProgress = () => {
+      const h = document.documentElement;
+      const max = Math.max(1, h.scrollHeight - h.clientHeight);
+      bar.style.transform = 'scaleX(' + (h.scrollTop / max) + ')';
+    };
+    document.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    document.getElementById('copyText').addEventListener('click', async () => {
+      const text = document.querySelector('article').innerText.trim();
+      await navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyText');
+      const old = btn.textContent;
+      btn.textContent = '已复制';
+      setTimeout(() => btn.textContent = old, 1200);
+    });
+  </script>
+</body>
+</html>
