@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amazon US Coffee Mug 类目市场调研</title>
+  <style>
+    :root {
+      --paper: #f6f1e7;
+      --paper-2: #efe5d2;
+      --ink: #1e261f;
+      --muted: #746b5f;
+      --line: #ded3bf;
+      --card: rgba(255, 252, 244, .88);
+      --green: #15724f;
+      --amber: #b46b19;
+      --coral: #c9573e;
+      --blue: #3d657d;
+      --shadow: 0 18px 48px rgba(52, 41, 26, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(21, 114, 79, .14), transparent 30%),
+        radial-gradient(circle at 84% 10%, rgba(180, 107, 25, .15), transparent 28%),
+        linear-gradient(180deg, var(--paper), #fbf8ef 36%, var(--paper-2));
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+    header { padding: 58px 0 30px; border-bottom: 1px solid rgba(80, 65, 44, .12); }
+    .kicker, .section-kicker {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 14px 0 12px;
+      max-width: 930px;
+      font-size: clamp(36px, 8vw, 76px);
+      line-height: .95;
+      letter-spacing: -.04em;
+    }
+    h2 { margin: 8px 0 18px; font-size: clamp(28px, 5vw, 52px); line-height: 1.05; letter-spacing: -.03em; }
+    h3 { margin: 0 0 12px; font-size: 18px; }
+    p { line-height: 1.75; }
+    .dek { max-width: 850px; margin: 0; color: var(--muted); font-size: clamp(16px, 2.2vw, 22px); line-height: 1.65; }
+    .hero-grid, .decision-strip, .grid-2, .grid-3, .grid-4 { display: grid; gap: 12px; }
+    .hero-grid { grid-template-columns: repeat(4, 1fr); margin-top: 28px; }
+    .decision-strip { grid-template-columns: 1.05fr repeat(3, 1fr); margin-top: 14px; }
+    .grid-2 { grid-template-columns: 1.05fr .95fr; gap: 16px; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .metric, .panel, .decision-card {
+      background: var(--card);
+      border: 1px solid rgba(110, 91, 62, .16);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+    .metric, .decision-card, .panel { padding: 18px; }
+    .metric strong { display: block; font-size: clamp(28px, 5vw, 48px); line-height: 1; }
+    .metric span { display: block; margin-top: 8px; font-weight: 800; }
+    .metric small, .decision-card p, .source-note, .section-note, .evidence { color: var(--muted); }
+    .decision-card small, .tag {
+      display: inline-flex;
+      width: fit-content;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .decision-card strong { display: block; margin-top: 8px; font-size: clamp(24px, 4vw, 42px); line-height: 1.05; }
+    .decision-card p { margin: 8px 0 0; font-size: 13px; line-height: 1.55; }
+    .green { color: var(--green); }
+    .amber { color: var(--amber); }
+    .coral { color: var(--coral); }
+    .blue { color: var(--blue); }
+    .tag {
+      padding: 5px 9px;
+      border: 1px solid rgba(80, 65, 44, .14);
+      border-radius: 999px;
+      background: rgba(255,255,255,.46);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(246, 241, 231, .88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(80, 65, 44, .12);
+    }
+    .nav-inner { display: flex; gap: 10px; overflow-x: auto; padding: 11px 0; }
+    nav a {
+      flex: 0 0 auto;
+      padding: 9px 13px;
+      color: #3f392f;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      border: 1px solid rgba(80, 65, 44, .14);
+      border-radius: 999px;
+      background: rgba(255,255,255,.42);
+    }
+    section { padding: 54px 0; }
+    .section-kicker { color: var(--amber); }
+    .section-note { max-width: 850px; margin: -6px 0 18px; font-size: 14px; }
+    .compact-list { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+    .compact-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(80, 65, 44, .12);
+    }
+    .compact-list li:last-child { border-bottom: 0; }
+    .bars { display: grid; gap: 12px; }
+    .bar-row { display: grid; grid-template-columns: 145px 1fr 90px; align-items: center; gap: 10px; font-size: 13px; }
+    .track { height: 11px; overflow: hidden; background: #eadfcb; border-radius: 999px; }
+    .bar { height: 100%; background: linear-gradient(90deg, var(--green), #69a67a); border-radius: inherit; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.55); }
+    table { width: 100%; min-width: 920px; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 13px 14px; text-align: left; border-bottom: 1px solid rgba(92, 76, 52, .13); vertical-align: top; }
+    th { color: #4c4438; background: rgba(239, 229, 210, .78); font-size: 12px; text-transform: uppercase; }
+    tr:last-child td { border-bottom: 0; }
+    .text-link { color: var(--green); font-weight: 800; text-decoration: none; border-bottom: 1px solid rgba(21,114,79,.28); }
+    .source-note { margin-top: 10px; font-size: 12px; }
+    .evidence { margin-top: 12px; padding-top: 12px; font-size: 12px; border-top: 1px solid rgba(80, 65, 44, .12); }
+    footer { padding: 34px 0 48px; color: var(--muted); border-top: 1px solid rgba(80,65,44,.12); }
+    @media (max-width: 820px) {
+      header { padding-top: 38px; }
+      .hero-grid, .decision-strip, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 112px 1fr 74px; }
+      section { padding: 38px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="kicker">Amazon US category scan · 2026-06-09</div>
+      <h1>Coffee Mug 类目市场调研</h1>
+      <p class="dek">`coffee mug` 不是一个单一产品类目，而是被保温旅行杯、陶瓷马克杯、礼品杯、一次性纸杯、智能温控杯共同占据的流量池。核心机会不在泛词硬打，而在“咖啡场景专用”的细分结构升级。</p>
+      <div class="hero-grid">
+        <div class="metric"><strong class="green">156,738</strong><span>coffee mug 月搜索量</span><small>Sorftime keyword_detail, US</small></div>
+        <div class="metric"><strong class="coral">155,241</strong><span>搜索结果竞品数</span><small>大词竞争极宽泛</small></div>
+        <div class="metric"><strong class="amber">$0.55-$0.76</strong><span>核心词 CPC 区间</span><small>coffee / ceramic / insulated</small></div>
+        <div class="metric"><strong class="blue">12月</strong><span>主旺季</span><small>礼品和冬季热饮共同驱动</small></div>
+      </div>
+      <div class="decision-strip">
+        <div class="decision-card">
+          <small>Launch decision</small>
+          <strong class="amber">谨慎</strong>
+          <p>泛 `coffee mug` 不建议直接进入；可继续验证陶瓷内胆、易清洁防漏盖、轻量通勤小杯、礼品化马克杯四个细分切口。</p>
+        </div>
+        <div class="decision-card">
+          <small>Key threshold</small>
+          <strong>差异化必须可见</strong>
+          <p>如果只做普通不锈钢保温杯或普通陶瓷杯，会被 Stanley / Owala / YETI / Contigo 与低价白牌两端挤压。</p>
+        </div>
+        <div class="decision-card">
+          <small>Main risk</small>
+          <strong class="coral">盖子体验</strong>
+          <p>负评高频集中在漏水、难清洗、保温不符、容量虚标、杯架不适配、到货损伤。</p>
+        </div>
+        <div class="decision-card">
+          <small>Next action</small>
+          <strong class="blue">先测 2 个方向</strong>
+          <p>优先测“ceramic-lined leakproof travel mug”和“礼品化陶瓷/玻璃杯”，分别验证成本、包装、退货风险和关键词转化。</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap nav-inner">
+      <a href="#summary">核心判断</a>
+      <a href="#keywords">关键词</a>
+      <a href="#types">产品类型</a>
+      <a href="#competitors">竞品矩阵</a>
+      <a href="#audience">用户场景</a>
+      <a href="#painpoints">评论痛点</a>
+      <a href="#opportunity">机会方向</a>
+      <a href="#risks">风险</a>
+      <a href="#actions">下一步</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="summary">
+      <div class="wrap">
+        <div class="section-kicker">Executive insight</div>
+        <h2>这是大市场，但不是“普通杯子”机会</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>为什么不建议直接做泛款</h3>
+            <p>搜索结果里销量最高的不是传统陶瓷马克杯，而是 Stanley、Owala、YETI、Contigo 等保温旅行杯。大词 `coffee mug` 月搜索量高，但竞品数超过 15 万，Top 自然位和品牌位集中在强品牌、大评论数、成熟杯型上。新进入者如果没有结构、材质或场景差异，很容易变成广告和价格战。</p>
+          </div>
+          <div class="panel">
+            <h3>可继续看的信号</h3>
+            <ul class="compact-list">
+              <li><span>`ceramic coffee mug` 自然位低评产品占比</span><b class="green">更友好</b></li>
+              <li><span>Owala / YETI 陶瓷内胆新品仍能跑量</span><b class="amber">趋势明确</b></li>
+              <li><span>礼品杯和玻璃杯依赖情绪场景</span><b class="blue">可差异化</b></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="keywords">
+      <div class="wrap">
+        <div class="section-kicker">Keyword map</div>
+        <h2>关键词需求与竞争</h2>
+        <p class="section-note">这张表说明：主词需求大，但太宽；真正适合新品判断的是 `ceramic coffee mug`、`insulated coffee mug` 和礼品/套装类长尾。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>关键词</th><th>月搜索量</th><th>周搜索量</th><th>CPC</th><th>竞品数</th><th>旺季</th><th>首页低评信号</th><th>用途判断</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>coffee mug</td><td>156,738</td><td>32,893</td><td>$0.67</td><td>155,241</td><td>12月</td><td>自然位低于 500 评占 21.43%</td><td>流量入口太宽，适合观察市场，不适合作为唯一切入词</td></tr>
+              <tr><td>insulated coffee mug</td><td>71,098</td><td>16,025</td><td>$0.55</td><td>171,734</td><td>12月</td><td>自然位低于 500 评占 11.54%</td><td>品牌和评论门槛高，必须靠结构/盖子/材质差异切入</td></tr>
+              <tr><td>ceramic coffee mug</td><td>37,246</td><td>6,912</td><td>$0.76</td><td>168,245</td><td>12月</td><td>自然位低于 500 评占 54.69%</td><td>更适合找新品机会，尤其是陶瓷内胆、礼品杯、设计感杯型</td></tr>
+              <tr><td>coffee mugs set</td><td>1,156</td><td>265</td><td>$0.62</td><td>171,062</td><td>9月, 11月, 12月</td><td>自然位低于 500 评占 56.25%，coupon 占 31.58%</td><td>需求小但礼品/套装属性强，适合做季节礼品而非全年大货</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">来源：Sorftime `keyword_detail`，US，采集时间 2026-06-09。平均星级字段在工具返回中异常显示为 0，本报告不使用该字段做判断。</p>
+      </div>
+    </section>
+
+    <section id="types">
+      <div class="wrap">
+        <div class="section-kicker">Product type landscape</div>
+        <h2>产品类型不是一个类目</h2>
+        <p class="section-note">`coffee mug` 搜索结果混入了保温杯、水杯、纸杯、礼品杯和智能杯。选品时必须先选解决方案形态。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>产品类型</th><th>功能</th><th>常见容量</th><th>价格带</th><th>代表品牌/产品</th><th>竞争状态</th><th>机会判断</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>保温旅行咖啡杯</td><td>通勤、防漏、保温/保冷</td><td>12-24 oz</td><td>$10.99-$35</td><td>Owala, YETI, Contigo, Simple Modern</td><td>红海，品牌强</td><td>只有“真防漏 + 易清洁 + 车杯架适配”同时成立才值得测</td></tr>
+              <tr><td>大容量带吸管 Tumbler</td><td>水杯/冰咖啡/车载</td><td>30-40 oz</td><td>$18.99-$44.99</td><td>Stanley, HydroJug, Owala</td><td>强品牌与潮流驱动</td><td>不建议作为 coffee mug 切口，和水杯市场高度重叠</td></tr>
+              <tr><td>陶瓷内胆保温杯</td><td>解决金属味，兼顾保温</td><td>14-20 oz</td><td>$23.99-$34.99</td><td>Owala ceramic-lined, YETI ceramic-lined, RTIC</td><td>新趋势但品牌进入</td><td>值得验证，核心要证明无金属味、清洁、耐摔和密封</td></tr>
+              <tr><td>礼品陶瓷/玻璃杯</td><td>生日、母亲节、同事礼物</td><td>12-16 oz</td><td>$9.99-$19.99</td><td>OEAGO, ALBISS, Jumway</td><td>碎片化，情绪驱动</td><td>适合做设计/包装/人群场景，不适合泛白杯</td></tr>
+              <tr><td>一次性纸杯</td><td>办公室、咖啡店、聚会耗材</td><td>8-12 oz</td><td>$27-$69 多件装</td><td>Dixie, GP PRO, METAPRINT</td><td>B2B 耗材型</td><td>逻辑完全不同，成本、体积、FBA 费用压力大</td></tr>
+              <tr><td>智能温控杯</td><td>恒温、办公桌面</td><td>10-14 oz</td><td>$90+</td><td>Ember</td><td>高价小众</td><td>供应链和售后复杂，不适合作为低风险测试款</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="competitors">
+      <div class="wrap">
+        <div class="section-kicker">Competitor matrix</div>
+        <h2>代表竞品矩阵</h2>
+        <p class="section-note">这张表说明当前市场奖励什么：强品牌保温杯拿走最大销量；低价中国卖家能跑中等销量；低评新品如果卖点清晰，也能进入观察池。</p>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>样本月销量 Top5</h3>
+            <div class="bars">
+              <div class="bar-row"><span>Stanley Quencher</span><div class="track"><div class="bar" style="width:100%"></div></div><b>78,923</b></div>
+              <div class="bar-row"><span>Owala SmoothSip</span><div class="track"><div class="bar" style="width:64%"></div></div><b>50,743</b></div>
+              <div class="bar-row"><span>YETI Rambler</span><div class="track"><div class="bar" style="width:49%"></div></div><b>38,838</b></div>
+              <div class="bar-row"><span>Contigo Byron</span><div class="track"><div class="bar" style="width:24%"></div></div><b>18,650</b></div>
+              <div class="bar-row"><span>Stanley Transit</span><div class="track"><div class="bar" style="width:17%"></div></div><b>13,345</b></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>样本结论</h3>
+            <p>Top 样本基本都是保温旅行杯或 Tumbler，而不是传统陶瓷马克杯。价格主力集中在 $19.99-$35；低价杯可以跑量，但常见痛点是盖子、漏水、保温和质感。高价智能杯有销量，但不是简单供应链。</p>
+          </div>
+        </div>
+        <div class="table-wrap" style="margin-top:16px;">
+          <table>
+            <thead>
+              <tr><th>ASIN / Link</th><th>品牌</th><th>类型</th><th>价格</th><th>月销量</th><th>月销额</th><th>评分/评论</th><th>为什么代表性强</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B0DF472VMZ" target="_blank" rel="noopener">B0DF472VMZ</a></td><td>Owala</td><td>12 oz/20 oz SmoothSip 咖啡旅行杯</td><td>$19.99</td><td>50,743</td><td>$1,014,352.57</td><td>4.6 / 13,220</td><td>咖啡小杯趋势标杆，颜色和滑盖设计强，但负评集中在保温、漏水、清洁和掉漆</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B0D6X5ND4F" target="_blank" rel="noopener">B0D6X5ND4F</a></td><td>YETI</td><td>20 oz 真空保温 Tumbler</td><td>$28.00</td><td>38,838</td><td>$1,087,464.00</td><td>4.8 / 146,181</td><td>强品牌高评论壁垒，说明泛保温杯新卖家不宜正面硬碰</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B0D1LLCDJX" target="_blank" rel="noopener">B0D1LLCDJX</a></td><td>Contigo</td><td>24 oz Snapseal 旅行咖啡杯</td><td>$22.99</td><td>18,650</td><td>$428,763.50</td><td>4.5 / 43,626</td><td>老牌通勤杯，负评暴露 O-ring、盖子难开、漏水、口部体验问题</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B07ZGMX2MS" target="_blank" rel="noopener">B07ZGMX2MS</a></td><td>SUNWILL</td><td>14 oz 带柄不锈钢杯</td><td>$10.99</td><td>7,714</td><td>$84,776.86</td><td>4.5 / 24,458</td><td>中国卖家低价杯代表，跑量可以，但盖子和真实容量是主要风险</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B0GTN8NKN4" target="_blank" rel="noopener">B0GTN8NKN4</a></td><td>Owala</td><td>20 oz 陶瓷内胆保温杯</td><td>$29.99</td><td>4,936</td><td>$148,030.64</td><td>4.7 / 66</td><td>低评论新品仍有销量，提示陶瓷内胆/无金属味方向值得观察</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B0FYBL7RVV" target="_blank" rel="noopener">B0FYBL7RVV</a></td><td>Renoj</td><td>32 oz 防泼大杯</td><td>$11.98</td><td>6,086</td><td>$36,455.14</td><td>4.6 / 686</td><td>低价低评新品样本，但更接近水杯/Tumbler，和 coffee mug 语义有偏移</td></tr>
+              <tr><td><a class="text-link" href="https://www.amazon.com/dp/B09JNRXJD6" target="_blank" rel="noopener">B09JNRXJD6</a></td><td>OEAGO</td><td>礼品玻璃/珐琅杯</td><td>$14.99</td><td>11,578</td><td>$173,554.22</td><td>4.7 / 7,966</td><td>礼品杯代表，说明非保温杯也能卖，但靠人群、节日、包装和情绪价值</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">来源：Sorftime `product_search(searchName=coffee mug, US, page=1-2)`，采集时间 2026-06-09。搜索结果中混入咖啡豆/胶囊等非杯类产品，本报告已剔除非杯类样本。</p>
+      </div>
+    </section>
+
+    <section id="audience">
+      <div class="wrap">
+        <div class="section-kicker">Audience and scenarios</div>
+        <h2>用户画像与使用场景</h2>
+        <p class="section-note">从搜索结果和负评看，用户不是只买“杯子”，而是在买场景：通勤不洒、办公室慢喝、礼品表达、冰咖啡随身。</p>
+        <div class="grid-3">
+          <div class="panel">
+            <span class="tag">Daily commute</span>
+            <h3>通勤咖啡用户</h3>
+            <p>需要杯架适配、防漏、单手开合、不会烫嘴、不会弄脏包和车。对盖子结构容错率极低。</p>
+            <div class="evidence">Owala / YETI / Contigo 负评中反复出现 “leakproof claim failed”“cup holder”“hard to open”。</div>
+          </div>
+          <div class="panel">
+            <span class="tag">Desk coffee</span>
+            <h3>办公室慢喝用户</h3>
+            <p>关心保温真实时长、口感无金属味、清洁不留奶味。12-16 oz 比 30-40 oz 更贴合咖啡。</p>
+            <div class="evidence">多条负评抱怨 30-90 分钟后变温、盖子残留异味、奶咖味洗不掉。</div>
+          </div>
+          <div class="panel">
+            <span class="tag">Gift buyer</span>
+            <h3>礼品购买者</h3>
+            <p>买的是祝福、身份和包装完整度。母亲节、生日、圣诞、同事礼物是主要触发场景。</p>
+            <div class="evidence">`coffee mugs set` 搜索量小，但礼品杯 Top 产品月销可过万，旺季集中在 9月、11月、12月。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="painpoints">
+      <div class="wrap">
+        <div class="section-kicker">Review pain points</div>
+        <h2>评论痛点与产品启发</h2>
+        <p class="section-note">负评不是随机抱怨，主要集中在盖子、保温、清洁、容量、包装和材质耐久。新品必须用结构方案回应这些问题。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>差评问题</th><th>出现产品类型</th><th>可能根因</th><th>产品改良方向</th><th>验证动作</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>漏水 / 不防泼</td><td>Owala, YETI, Contigo, SUNWILL</td><td>滑盖、磁吸盖、O-ring、螺纹盖容错低</td><td>双层密封 + 明确锁止反馈 + 可替换密封圈</td><td>做倒置、侧放、摇晃、热液压力测试</td></tr>
+              <tr><td>保温不符合预期</td><td>Owala, YETI, Contigo, SUNWILL</td><td>热饮体积小、杯口散热、用户预热习惯差异</td><td>不要夸张标 6-8 小时，改成真实咖啡饮用温度曲线</td><td>用 12/16/20 oz 做 30/60/120/240 分钟温度记录</td></tr>
+              <tr><td>盖子难清洁 / 有异味</td><td>Owala, Contigo</td><td>零件多、拆装难、奶咖残留在滑块/密封圈</td><td>少零件、可视化拆装、无死角清洁、替换盖配件</td><td>奶咖 24 小时残留后清洁测试，记录气味残留</td></tr>
+              <tr><td>容量虚标 / 杯架不适配</td><td>YETI, SUNWILL, 大容量杯</td><td>标称到杯口，不是带盖可用容量；底径和高度不适配</td><td>明确“with lid usable capacity”和底径尺寸</td><td>测试美国家用车杯架、咖啡机高度、冰箱饮水机高度</td></tr>
+              <tr><td>掉漆、刮花、到货损伤</td><td>Owala, YETI, SUNWILL</td><td>粉末涂层耐磨不足，单杯包装抗压不足</td><td>耐磨涂层 + 礼品级防摔包装 + 售后配件</td><td>1m 跌落、洗碗机/手洗、海运箱压测试</td></tr>
+              <tr><td>过重 / 手小不好握</td><td>Renoj, 大容量杯, Contigo</td><td>容量过大、手柄角度、重心高</td><td>做 12-16 oz 轻量咖啡杯，不追 40 oz 大容量</td><td>女性手型、老年人、车内单手拿取测试</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">来源：Sorftime `product_reviews`，采样 ASIN 包括 Owala B0DF472VMZ、YETI B0D6X5ND4F、Contigo B0D1LLCDJX、SUNWILL B07ZGMX2MS、Renoj B0FYBL7RVV、Owala ceramic-lined B0GTN8NKN4。</p>
+      </div>
+    </section>
+
+    <section id="opportunity">
+      <div class="wrap">
+        <div class="section-kicker">Opportunity</div>
+        <h2>更值得测试的新品方向</h2>
+        <div class="grid-3">
+          <div class="panel">
+            <span class="tag">Priority 1</span>
+            <h3>陶瓷内胆防漏咖啡旅行杯</h3>
+            <p>定位 12-16 oz，解决金属味和通勤漏水，同时保持杯架适配。不要做 30-40 oz 水杯形态，避免偏离 coffee mug 场景。</p>
+            <div class="evidence">证据：`ceramic coffee mug` 月搜 37,246；Owala ceramic-lined 低评论样本月销 4,936；YETI ceramic-lined 也进入关键词 Top 样本。</div>
+          </div>
+          <div class="panel">
+            <span class="tag">Priority 2</span>
+            <h3>易清洁替换盖系统</h3>
+            <p>不是单卖杯子，而是用“盖子不藏污、密封圈可替换、配件可买”做卖点。可以考虑杯 + 备用密封圈 + 清洁刷 + 说明卡。</p>
+            <div class="evidence">证据：Owala、Contigo 负评都集中在盖子拆装、密封圈、异味、坏了无法替换。</div>
+          </div>
+          <div class="panel">
+            <span class="tag">Priority 3</span>
+            <h3>礼品化陶瓷/玻璃杯</h3>
+            <p>避开通勤防漏工程难度，做母亲节、教师、同事、生日等人群礼品。关键在包装、图案、祝福语、到货完整度。</p>
+            <div class="evidence">证据：OEAGO 礼品杯月销 11,578；`coffee mugs set` 旺季在 9月、11月、12月，coupon 占比高。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="risks">
+      <div class="wrap">
+        <div class="section-kicker">Risks</div>
+        <h2>进入前必须验证的风险</h2>
+        <div class="panel">
+          <ul class="compact-list">
+            <li><span>价格带风险：$20-$35 已有 Owala / YETI / Stanley 强品牌</span><b>必须有结构差异</b></li>
+            <li><span>低价风险：$10-$15 会被 FBA、包装、退货和广告压缩利润</span><b>先核算毛利</b></li>
+            <li><span>工程风险：防漏、易清洁、保温、杯架适配互相牵制</span><b>打样实测</b></li>
+            <li><span>合规风险：饮用接触材质、涂层、铅镉、Prop 65、儿童/礼品宣称</span><b>提前确认</b></li>
+            <li><span>旺季风险：12月旺季明显，错过备货窗口会影响验证</span><b>倒推上架时间</b></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="actions">
+      <div class="wrap">
+        <div class="section-kicker">Next steps</div>
+        <h2>下一步验证动作</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>最小验证路径</h3>
+            <p>先不要直接开发泛款 coffee mug。建议并行验证两个样品方向：1）12-16 oz ceramic-lined leakproof travel coffee mug；2）礼品化陶瓷/玻璃杯套装。前者验证结构和成本，后者验证设计包装和季节转化。</p>
+          </div>
+          <div class="panel">
+            <h3>需要补的数据</h3>
+            <ul class="compact-list">
+              <li><span>目标售价下的产品成本、头程、FBA、佣金、广告占比</span><b>利润逆算</b></li>
+              <li><span>3-5 个陶瓷内胆竞品的结构拆解和专利风险</span><b>合规/专利</b></li>
+              <li><span>样品的保温、防漏、清洁、杯架、跌落测试</span><b>打样验证</b></li>
+            </ul>
+          </div>
+        </div>
+        <p class="source-note">数据来源：Sorftime `keyword_detail`、`product_search`、`product_reviews`。未使用 Amazon 官方 BSR API；未做专利检索和成本核算。本报告不编造缺失的类目 Top100 node 报告、利润率或实际转化率。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Coffee Mug market report · Amazon US · Generated 2026-06-09 11:10 Asia/Shanghai · Local HTML report.</div>
+  </footer>
+</body>
+</html>
